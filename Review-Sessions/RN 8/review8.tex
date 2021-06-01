@@ -1,0 +1,740 @@
+% See instructions in the preamble file
+\documentclass[twoside]{article}
+
+\input{preamble/preamble}
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage{listings}
+\newcommand\pp{\partial}
+\newcommand\pd{\partial}
+\newcommand\imp{$\Longrightarrow$}
+\newcommand\lb{\left (}
+\newcommand\rb{\right )}
+\newcommand\lsb{\left [}
+\newcommand\rsb{\right ]}
+\newcommand\lcb{\left \{}
+\newcommand\rcb{\right \}}
+
+\begin{document}
+
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{8}{Review Session \#8}{Aliaksandr Zaretski}{Zhikun Lu}
+\footnotetext[1]{Visit \url{http://www.luzk.net/misc} for updates.}
+
+\hfill Date: Date: September 7, 2018
+
+%\tableofcontents
+\section{Linear DE}
+\begin{equation}
+    \varphi_{n}(L) = 1 + a_{1,n}L + ... + a_{k,n}L^{k}
+\end{equation}
+\[
+\begin{cases}
+    \varphi_{n}(L)x_{n} = g_{n}, &\text{ [C] }\\
+    \varphi_{n}(L)x_{n} = 0    , &\text{ [H] }
+\end{cases}
+\iff
+\begin{cases}
+    x_n + a_{1,n}x_{n-1}+ ...+ a_{k,n} x_{n-k} = g_{n}, &\text{ [C] }\\
+    x_n + a_{1,n}x_{n-1}+ ...+ a_{k,n} x_{n-k} = 0    , &\text{ [H] }    
+\end{cases}
+\]
+
+\begin{theorem}
+    Consider a k-th order linear DE
+    \begin{enumerate}
+        \item [(a)] $\{x_{n}\}$ is a general solution to [C] $\iff$ $x_{n} = x_{h,n}+ x_{p,n}$, where $\begin{cases}
+            \{x_{h,n}\} &\text{-- general solution to [H] }\\
+            \{x_{p,n}\} &\text{-- general solution to [C] }
+        \end{cases}$
+        \item [(b)] $\{ H \}$ is a vector space.
+        \item [(c)] $\dim \{ H \} = k$.
+        \item [(d)] Let $\{x_{n}^{1} \}, ..., \{x_{n}^{k} \}$ be solutions of [H] that satisfies $\begin{cases}
+            x_{0}^{1} = 1, \\
+            \\
+            \\
+
+        \end{cases}$
+
+        Then $\{ \{x_{n}^{1} \}, ..., \{x_{n}^{k} \} \}$ is a basis of $\{H\}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Follows from the arguments similar to Theorem 3.2-3.4 + COrollary exercise.
+\end{proof}
+
+\section{Linear DE with constant coefficients}
+\begin{equation}
+    \varphi_{n}(L) = 1 + a_{1}L + ... + a_{k}L^{k}
+\end{equation}
+\[
+\begin{cases}
+    \varphi_{n}(L)x_{n} = g_{n}, &\text{ [C] }\\
+    \varphi_{n}(L)x_{n} = 0    , &\text{ [H] }
+\end{cases}
+\iff
+\begin{cases}
+    x_n + a_{1}x_{n-1}+ ...+ a_{k} x_{n-k} = g_{n}, &\text{ [C] }\\
+    x_n + a_{1}x_{n-1}+ ...+ a_{k} x_{n-k} = 0    , &\text{ [H] }    
+\end{cases}
+\]
+
+\begin{definition}
+    $\lambda^{k} + a_{1} \lambda^{k-1} + ... + a_{k-1} \lambda + a_{k} = 0$ [CE] is the \underline{characteristic equation} corresponding to [H] (Assume $a^{k} \neq 0$).
+\end{definition}
+
+\begin{theorem}
+    $\lambda$ is a solution to [CE] $\iff$ $\{ \lambda^{n} \}, \lambda \neq 0,$ is a solution to [H].
+\end{theorem}
+\begin{proof}
+    ``\imp''
+
+    $\lambda^{k} + a_{1} \lambda^{k-1} + ... + a_{k-1} \lambda + a_{k} = 0$ multiplied by $\lambda^{n-k}$ \imp 
+    \[
+    \lambda^{n} + a_{1} \lambda^{n-1} + ... + a_{k-1} \lambda^{n-k+1} + a_{k} \lambda^{n-k} = 0
+    \]
+
+    ``$\Longleftarrow$''
+
+    $\lambda^{n} + a_{1} \lambda^{n-1} + ... + a_{k-1} \lambda^{n-k+1} + a_{k} \lambda^{n-k} = 0$ \imp $\lambda^{n-k} (...) = 0$ \imp True.
+\end{proof}
+
+\subsection*{Forming the basis of $\{H\}$}
+
+Suppose $\lambda_{1}, ..., \lambda_{n}$ are roots of [CE]
+\begin{enumerate}
+    \item $\lambda_{j} \in \mathbb{R}$, distinct from other roots, then take $\{\lambda_{j}^{n}\}$
+    \item $\underbrace{\lambda_{j}, ..., \lambda_{j+m-1}}_{m \text{ terms}} \in \mathbb{R}$, equal real roots, then take $\{\lambda_{j}^{n}\}$, $\{n\lambda_{j}^{n}\}$, ..., $\{n^{m-1}\lambda_{j}^{n}\}$.
+    \item $\begin{cases}
+        \\
+        
+    \end{cases}
+    \begin{array}{lllllll}
+        \lambda_{j}    &= a_{j} + b_{j} {i} & \Longrightarrow &  (a_{j}+b_{j} i)^{n} & = (\underbrace{|z|}_{\Gamma_{j}} e^{i \theta_{j}})^{n}   &= \Gamma_{j} e^{i n \theta_{j}} & = \Gamma^{n}_{j}(\cos(n \theta_{j}) + i \sin(n \theta_{j}))\\
+        \lambda_{j+1}  &= a_{j} - b_{j} {i} & \Longrightarrow &  &  &  & \Rightarrow \Gamma^{n}_{j}(\cos(n \theta_{j}) - i \sin(n \theta_{j}))
+    \end{array}$
+
+    Then $c_{1} \lambda_{j}^{n} + c_{2} \lambda_{j+1}^{n}$ \imp $\Gamma^{n}_{j}(c_{j} \cos(n \theta_{j}) + c_{j+1}\sin(n \theta_{j}))$
+    \item $\begin{cases}
+        \lambda_{j}   = a_{j} + i b_{j}\\
+        \lambda_{j+1} = a_{j} - i b_{j}\\
+        \lambda_{j+2} = a_{j} + i b_{j}\\
+        \lambda_{j+3} = a_{j} - i b_{j}        
+    \end{cases}$ \imp $\Gamma^{n}_{j}(c_{j} \cos(n \theta_{j}) + c_{j+1}\sin(n \theta_{j}) + c_{j+2} n \cos(n \theta_{j}) + c_{j+3} n \sin(n \theta_{j}))$
+\end{enumerate}
+
+\underline{General solution to [H]}
+
+$X_{h,n}$ is a linear combination of basis functions. For example,
+\[
+\begin{cases}
+    x_n + a_{1}x_{n-1}+ ...+ a_{8} x_{n-8} + a_{9} x_{n-9} = 0      , &\text{ [C] }\\
+    \lambda^{9} + a_{1}\lambda_{8}+ ...+ a_{8}  + \lambda a_{9} = 0    , &\text{ [H] }
+\end{cases}
+\]
+\[
+\begin{cases}
+    \lambda_{1}, ..., \lambda_{9}  \text{ -- roots of [CE] }\\
+    \lambda_{1} \neq \lambda_{2} \neq \lambda_{3} \in \mathbb{R}\\
+    \lambda_{3} =    \lambda_{4} =    \lambda_{5} \in \mathbb{R}\\
+    \lambda_{6} = a + b i\\
+    \lambda_{7} = a - b i\\
+    \lambda_{8} = a + b i\\
+    \lambda_{9} = a - b i
+\end{cases}
+\]
+\imp $$x_{h,n} = c_{1}\lambda_{1}^{n}+  c_{2}\lambda_{2}^{n}+ c_{3}\lambda_{3}^{n}+ c_{4} n \lambda_{4}^{n} + c_{5} n^{2} \lambda_{5}^{n} + \Gamma^{n}(c_{6}\cos(b \theta) + c_{7}\sin(b \theta)) + n \Gamma^{n}(c_{8}\cos(b \theta) + c_{9}\sin(b \theta))$$
+where $\Gamma = \sqrt{a^{2}+b^{2}}.$
+%=======================================
+
+
+
+\clearpage
+\underline{Particular solution to [C]}
+
+\[
+\phi(L)x_{n} = g_{n} \quad \text{[C]}
+\]
+
+\begin{table}[htbp]
+\begin{tabular}{ll}
+$g_n$ & Guess for $x_{p,n}$ \\ \hline
+$C$ -- constant  & $D$ -- constant \\
+$b^{n}$ & $D b^{n}$   \\
+$\sin(At)$ & $D\sin(At)+E\cos(At)$ \\
+$\cos(At)$ & $D\sin(At)+E\cos(At)$ \\
+$n^d$ & $c_0+c_1 t + ... + c_d t^d$ \\
+sum or product & sum or product \\
+ of the above &  of the above  
+\end{tabular}
+\end{table}
+
+\begin{remark}
+If $x_{p,n}$ solves [H], then multiplt it by n.
+\end{remark}
+
+
+
+
+
+
+
+
+
+
+
+\begin{example}
+    \[
+    \begin{cases}
+        x_{n} + 2x_{n-1} + 2 x_{n-2} = n^{2}, &\text{ [C] }\\
+        \lambda^{2} + 2 \lambda + 2  = 0,     &\text{ [CE] }
+    \end{cases}
+    \]
+    \imp $\begin{cases}
+        \lambda_{1} = -1 + i\\    
+        \lambda_{2} = -1 + i,       
+    \end{cases} \qquad 
+    \begin{cases}
+        a = -1\\
+        b = 1
+    \end{cases}
+    \Longrightarrow
+    \Gamma = \sqrt{2}, ~ \theta = atan2(1,-1) = \dfrac{3\pi}{4}
+    $
+
+    \imp $x_{h,n} = (\sqrt{2})^{n} \left[ c_{1} \cos (\frac{3\pi n}{4}) + c_{2} \sin (\frac{3\pi n}{4}) \right]$
+
+    Guess for $x_{p,n} = b_{0}+b_{1} n + b_{2} n^{2}$ \imp $\begin{cases}
+        b_{0} = ...\\
+        b_{1} = ...\\
+        b_{2} = ...
+    \end{cases}$
+
+    ...
+\end{example}
+
+\begin{theorem}
+    \begin{itemize}
+        \item [(a)] If $1 + a_1 + ... + a_k \neq 0$, $0$ is a unique equilibrium point of [H]. Otherwise, any $z \in \mathbb{C}$ is an unstable equilibrium point.
+        \item [(b)] 0 is table $\iff$ $\Gamma_{j}<1 ~\forall j$, where $\Gamma_{j} = \sqrt{a_{j}^{2} + b_{j}^{2}}$, $\lambda_{j} = a_{j} + i b_{j}$, $\lambda_{1}, ..., \lambda_{k} $ are roots of [CE].
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item [(a)] $\tilde{x}$ is an equilibrium point $\iff$ $x_{n} = \tilde{x}$ for all $n$ \imp $\tilde{x} + a_1 \tilde{x} + ... + a_k \tilde{x} = 0$ \imp $\tilde{x}( 1+ a_1 + ... + a_k) = 0$
+        \item [(b)] $n^{m_{j}} \Gamma_{j}^{n} (\cos(n \theta_{j}) - i \sin(n \theta_{j}))$ (General form of a basis function for [H])
+
+        The conclusion follows from the argument in Theorem 6.3
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Shur]
+    ...
+\end{theorem}
+
+\section{Additional Topics}
+\subsection*{Phase diagram}
+$x_{n} = f(x_{n-2})$
+\begin{center}
+    \texttt{[insert a graph here]}
+\end{center}
+
+\begin{remark}
+    $f'(\tilde{x}) < 1 \Longrightarrow \tilde{x}$ is locally asymptotically stable.
+
+    $f'(\tilde{x}) > 1 \Longrightarrow \tilde{x}$ is unstable.    
+\end{remark}
+
+\subsection*{Linear Systems}
+\[
+\begin{cases}
+    x_n = A_n x_{n-1} + B_{n} u_{n} & [C]\\
+    x_n = A_n x_{n-1} & [H]    
+\end{cases}
+\]
+Suppose $x_{0} = x^{0}$, then \[
+\begin{aligned}
+    x_{1} &= A_{1} x_{0} + B_1 u_1\\
+    x_{2} &= A_{2} A_{1}x_{0} + A_{2} B_{1} u_{1} + B_{2} u_{2}\\
+    &\vdots\\
+    x_{n} &= \lb \prod_{s=0}^{n-1} A_{n-s} \rb x_{0} + \sum_{k=1}^{n}(\prod_{s=0}^{n-k-1} A_{n-s})B_{k} u_{k}
+\end{aligned}
+\]
+
+\subsection*{Constant coefficients}
+\[
+    x_n = A x_{n-1} + B_{n} u_{n}  \Longrightarrow x_{n} = A^{n}x_{0} + \sum_{k=1}^{n}A^{n-k}B_{k}u_{k}
+\]
+
+\subsection*{Stability}
+$x_{n} = A x_{n-1}$
+
+$\tilde{x}$ is an equilibrium point $\iff$ $\tilde{x} = A\tilde{x}$.
+
+\imp The set of equilibrium points is $H_{A}(1) = \{x \in \mathbb{C}^{n} \mid x = Ax\}$. (Eigenspace w.r.t. 1)
+
+If 1 is not an eigenvalue of $A$, then $\tilde{x} = 0$ is a unique equilibrium point.
+
+\begin{theorem}
+    $\tilde{x}$ is a stable equilibrium point of [H] $\iff$ moduli of all eigenvalues of $A$ are less than 1.
+\end{theorem}
+\begin{proof}
+    Note that $A = P D P^{-1}$ if diagonalizable.
+\end{proof}
+
+\begin{theorem}
+    If $A \in \mathbb{R}^{n\times m}$, $A = (a_{ij}).$ Then $\sum_{j=1}^{n} |a_{ij}| < 1 \forall i$ \imp all eigenvalues with moduli $<1$. 
+\end{theorem}
+
+\begin{theorem}
+    $x_n = f(x_{n-1})$, $f : \mathbb{C}^{n} \to \mathbb{C}^{n}$. Suppose $\tilde{x}$ is an equilibrium point, i.e. $\tilde{x} = f(\tilde{x}) $. if $Df(\tilde{x})$ has all eigenvalues with moduli <1, then $\tilde{x}$ is locally asymptotically stable.
+\end{theorem}
+\begin{proof}
+    $x_{n} = f(x_{n-1}) \approx \underbrace{f(\tilde{x})}_{ = \tilde{x}} + Df(\tilde{x}) (x_{n-1} - \tilde{x}) $ \imp 
+    $ \underbrace{x_{n} - \tilde{x}}_{y_{n}} \approx Df(\tilde{x}) \underbrace{(x_{n-1} - \tilde{x})}_{y_{n-1}} $.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+%=======================================
+
+%$$##
+%\clearpage
+%\section*{References}
+%\beginrefs
+%\bibentry{CW87}{\sc D.~Coppersmith} and {\sc S.~Winograd}, 
+%``Matrix multiplication via arithmetic progressions,''
+%{\it Proceedings of the 19th ACM Symposium on Theory of %Computing},
+%1987, pp.~1--6.
+%\endrefs
+
+% **** THIS ENDS THE EXAMPLES. DON'T DELETE THE FOLLOWING LINE:
+
+\end{document}
+
+
+
+\begin{theorem}
+    Consider \begin{equation}
+        x^{(n)} + a_{n-1} x^{(n-1)} + ... + a_1 x' + a_0 = 0 \qquad [H]
+    \end{equation}
+    0 is a stable equilibrium point of [H] $\Longrightarrow a_0, a_1, ..., a_{n-1} > 0$.
+\end{theorem}
+\begin{theorem}[Routh--Hurwitz]
+    See the scanned page.
+\end{theorem}
+
+\section{System of linear ODE}
+\begin{equation}
+    \underbrace{\dot{x}(t)}_{n \times 1} = \underbrace{A(t)}_{n \times n} \underbrace{x(t)}_{n \times 1} + \underbrace{B(t)}_{n \times m} \underbrace{u(t)}_{m \times 1}
+\end{equation}
+\begin{remark}
+    Consider 
+    $$y^{(n)} + a_{n-1}(t)y^{(n-1)}+...+a_{1}(t)y' + a_{0}(t)y = g(t) $$
+    Let 
+    \[
+    \begin{cases}
+        x_1 &\equiv y\\
+        x_2 &\equiv y'\\
+        &\vdots\\
+        x_n &\equiv y^{(n-1)}
+    \end{cases}
+    \Longrightarrow
+    \begin{cases}
+        \dot{x}_1 &\equiv x_2\\
+        \dot{x}_2 &\equiv x_3\\
+        &\vdots\\
+        \dot{x}_{n-1} &\equiv x_n
+    \end{cases}
+    \]
+
+    \[  \Longrightarrow
+        \dot{x}_n + a_{n-1}(t)x_n+...+a_{1}(t)x_2 + a_{0}(t)x_1 = g(t)
+    \]
+
+    \[
+    x(t) = \begin{bmatrix}
+       x_1(t) \\[0.3em]
+       \vdots \\[0.3em]
+       x_n(t)      
+     \end{bmatrix}
+     \qquad
+    u(t) = \begin{bmatrix}
+       u_1(t) \\[0.3em]
+       \vdots \\[0.3em]
+       u_m(t)      
+     \end{bmatrix}
+    \]
+
+    \[
+    A(t) = \begin{bmatrix}
+       a_{11}(t)& \cdots & a_{1n}(t)    \\[0.3em]
+       \vdots   &        & \vdots       \\[0.3em]
+       a_{n1}(t)& \cdots & a_{nn}(t)    
+     \end{bmatrix}
+     \qquad
+    B(t) = \begin{bmatrix}
+       b_{11}(t)& \cdots & b_{1m}(t)    \\[0.3em]
+       \vdots   &        & \vdots       \\[0.3em]
+       b_{n1}(t)& \cdots & b_{nm}(t)    
+     \end{bmatrix}
+    \]
+    Then we have
+    \begin{equation}
+    \underbrace{\begin{bmatrix}
+            \dot{x}_1(t) \\[0.3em]
+            \dot{x}_2(t) \\[0.3em]
+            \vdots \\[0.3em]
+            \dot{x}_{n-1}(t) \\[0.3em]
+            \dot{x}_n(t)      
+         \end{bmatrix}}_{\dot{x}(t)} 
+    = \underbrace{\begin{bmatrix}
+            0 & 1& 0& \cdots   & 0 & 0   \\[0.3em]
+            0 & 0& 1& \cdots   & 0 & 0   \\[0.3em]
+            \vdots & \vdots   & \vdots   &   \ddots     & \vdots& \vdots       \\[0.3em]
+            0 & 0& 0& \cdots   & 0 & 1   \\[0.3em]
+            -a_0(t) & -a_{1}(t)& -a_{2}(t)& \cdots & -a_{n-2}(t)& -a_{n-1}(t)    
+          \end{bmatrix}}_{A(t)}
+    \underbrace{\begin{bmatrix}
+            x_1(t) \\[0.3em]
+            x_2(t) \\[0.3em]
+            \vdots \\[0.3em]
+            x_{n-1}(t) \\[0.3em]
+            x_n(t)      
+         \end{bmatrix}}_{x(t)} + 
+    \underbrace{\begin{bmatrix}
+            0 \\[0.3em]
+            0 \\[0.3em]
+            \vdots \\[0.3em]
+            0 \\[0.3em]
+            1         
+        \end{bmatrix} }_{B(t)} \underbrace{g(t)}_{u(t)}
+    \end{equation}
+\end{remark}
+
+\begin{theorem}
+    If all elements of $A(t), B(t), u(t)$ are continuous, then $\forall$ initial condition $x(t_{0}) = x^{0}$, $\exists$ a unique solution to [C]
+\end{theorem}
+
+\begin{remark}  
+    \begin{equation}
+        \dot{x}(t) = A(t)x(t)+ B(t)u(t) \qquad [C]
+    \end{equation}
+    \begin{equation}
+        \dot{x}(t) = A(t)x(t)  \qquad [H]
+    \end{equation}
+\end{remark}
+
+\begin{theorem}
+    $\lcb H \rcb$ is a vector space.
+\end{theorem}
+\begin{proof}
+    Excercise.
+\end{proof}
+
+\begin{theorem}
+    $\dim \lcb H \rcb = n$.
+\end{theorem}
+
+\begin{definition}
+    Let $\lcb x^1(t), ..., x^n(t) \rcb$ be a basis of $\lcb H \rcb$. Then \begin{equation}
+        \Phi(t) = (x^1(t), ..., x^n(t)) = \begin{bmatrix}
+            x_{1}^{1}(t)& \cdots & x_{1}^{n}(t)    \\[0.3em]
+       \vdots   &        & \vdots       \\[0.3em]
+       x_{n}^{1}(t)& \cdots & x_{n}^{n}(t)  
+        \end{bmatrix}
+    \end{equation}
+    where $\Phi(t)$ is a fundamental matrix of [H].
+\end{definition}
+
+\section{Systems of linear ODE}
+\begin{remark}
+    \begin{enumerate}
+        \item There are infinitely many fundamental matrices of [H]
+        \item $\dot{\Phi}(t) \equiv (\dot{x}^1(t), ..., \dot{x}^n(t)) 
+        = \begin{bmatrix}
+            \dot{x}_{1}^{1}(t)& \cdots & \dot{x}_{1}^{n}(t)    \\[0.3em]
+            \vdots   &        & \vdots       \\[0.3em]
+            \dot{x}_{n}^{1}(t)& \cdots & \dot{x}_{n}^{n}(t)  
+        \end{bmatrix}$
+    \end{enumerate}
+\end{remark}
+
+\begin{lemma}
+    $\Phi(t)$ is a fundamental matrix of [H] $\iff$ $\dot{\Phi}(t) = A(t)\Phi(t)$ and $\Phi(t)$ is invertible for all $t$.
+\end{lemma}
+\begin{proof}
+    ``\imp''
+    \begin{equation}
+        \dot{\Phi}(t) = (\dot{x}^1(t), ..., \dot{x}^n(t)) = (A(t){x}^1(t), ..., A(t){x}^n(t)) = A(t) (x^1(t), ..., x^n(t)) = A(t) \Phi(t)
+    \end{equation}
+    ``$\Longleftarrow$''
+
+    $\Phi(t)$ has linearly independent columns. Suppose $x(t)$ is a solution to [H] that satisfies $x(t_0) = x^{0}$. Consider $\tilde{x}(t) = \Phi(t)c$. Then $\tilde{x}(t_0) = \Phi(t_0) c \Longrightarrow c = \Phi(t_0)^{-1}\tilde{x}(t_0) $. 
+
+    Suppose $\tilde{x}(t_0) = x^0$. Then $\tilde{x}(t) = \Phi(t) \Phi(t_0)^{-1} x^0 $. Then
+    \begin{equation}
+        \dot{\tilde{x}}(t) = \dot{\Phi}(t)\Phi(t_0)^{-1} x^0 = A(t) \underbrace{\Phi(t) \Phi(t_0)^{-1} x^0}_{\tilde{x}(t)} = A(t) \tilde{x}(t)
+    \end{equation}
+    Hence $\tilde{x}(t)$ is a solution to [H]. By uniqueness, \begin{equation}
+        \tilde{x}(t) = x(t) = \Phi(t) \underbrace{\Phi(t_0)^{-1}x^0}_{c}
+    \end{equation}
+    Hence, $\Phi(t)$ has a basis of $\{ H \}$ as columns \imp fundamental matrix. 
+\end{proof}
+
+
+\begin{definition}
+    $\Phi(t,t_{0})$ is a \underline{state transition matrix of } [H] if 
+    \begin{enumerate}
+        \item $\dot{\Phi}(t,t_0) = A(t) {\Phi}(t,t_0)$
+        \item ${\Phi}(t_0,t_0) = I_{n}$
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    If $\Phi(t)$ is a fundamental matrx of [H], then $\Phi(t,t_{0}) = \Phi(t)\Phi(t_0)^{-1}$ is a state transition matrx.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+    \item $\dot{\Phi}(t,t_0) =  \dot{\Phi}(t)\Phi(t_0)^{-1} = A(t) {\Phi}(t) {\Phi}(t_0) = A(t) {\Phi}(t,t_0)$
+    \item ${\Phi}(t_0,t_0) = {\Phi}(t_0){\Phi}(t_0)^{-1} = I_n$
+\end{enumerate}
+\end{proof}
+
+\textbf{Remark}: State transition matrx is unique.
+\begin{proof}
+    Exercise.
+\end{proof}
+
+\begin{theorem}
+    Suppose assumptions of theorem ???(7.1) holds. Then $x(t) = \Phi(t,t_0)x^0$ is the unique solution to [H] that satisfies $x(t_0) = x^{0}$.
+\end{theorem}
+\begin{proof}
+    $x(t) = \Phi(t)c$ for some $c \in \mathbb{R}^n$ \imp $x(t_0) = \Phi(t_0)c$ \imp $c = \Phi(t_0)^{-1} x(t_{0})$
+
+    \imp $x(t)= \Phi(t)\Phi(t_0)^{-1}x(t_0) = \Phi(t,t_0)x(t_0)$
+\end{proof}
+
+\begin{remark}
+    $x(t) = \Phi(t) c, ~c \in \mathbb{R}^{n}$ is the general solution to [H].
+\end{remark}
+
+\begin{theorem}
+    The general solution to [C] is 
+    \begin{equation}
+        x(t) = \Phi(t) c + \int_{t_{0}}^{t} \Phi(t,s) B(s) u(s) \dd s.
+    \end{equation}
+    Hence, the solution that satisfies $x_{t_{0}} = x^{0}$ is \begin{equation}
+        x(t) = \Phi(t,t_{0}) x^{0} + \int_{t_{0}}^{t} \Phi(t,s) B(s) u(s) \dd s
+    \end{equation}
+\end{theorem}
+
+\section{Systems of linear ODE with constant coefficients}
+\begin{equation}
+    \dot{x}(t) = A x(t) + B(t)u(t) \qquad [C]
+\end{equation}
+\begin{equation}
+    \dot{x}(t) = A x(t) \qquad [H]
+\end{equation}
+\begin{definition}
+    Let $A \in \mathbb{R}^{n\times n}$. Then $e^{A} \equiv \sum_{k=0}^{\infty} \frac{A^{k}}{k!}$ is the \underline{matrix exponential} of A.
+\end{definition}
+\begin{theorem}
+    Let $A, B, C \in \mathbb{R}^{n\times n}$, and $c, d \in \mathbb{R}$.
+    \begin{enumerate}
+        \item Suppose $AB = BA$. Then \[
+        e^{cA}e^{dB} = e^{cA+dB}
+        \]
+        In particular, $e^{cA}e^{dA} = e^{(c+d)A}$.
+        \item $\det(e^{A}) = e^{tr{(A)}}$. Hence, $e^{A}$ is invertible $\forall A \in \mathbb{R}^{n \times n}$.
+        \item Suppose $D$ is diagonal, i.e. \[
+        D = diag(d_{i}) = \begin{bmatrix}
+            d_{1} & & 0\\
+            &\ddots& \\
+            0 & & d_{n}
+        \end{bmatrix}
+        \]
+        Then \[
+        e^{D} = diag(e^{d_{i}}) = \begin{bmatrix}
+            e^{d_{1}} & & 0\\
+            &\ddots& \\
+            0 & & e^{d_{n}}
+        \end{bmatrix}.
+        \]
+        In particular, $e^{0_{n \times n}} = I_{n}, ~e^{I_{n}} = e I_{n}$.
+        \item $(e^{A})^{-1} = e^{-A}$.
+        \item Let $A = P J P^{-1}$, where $J$ -- Jordan normal form, then \[
+        e^{A} = P e^{J} P^{-1}.
+        \]
+        Suppose $A$ is diagonalizable, $A = P D P^{-1}$, then $e^{A} = P e^{D} P^{-1}$
+        \item  $
+        \dfrac{\dd }{\dd t} \lb e^{At} \rb = A e^{At}.
+        $
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{itemize}
+        \item 1. follows from Binomial formula / Cauchy product.
+        \item 2. follows from Jacobi's formula.
+        \item 3. -- 6. Exercise.
+        \item For 4., use 1.
+    \end{itemize}
+\end{proof}
+
+\section{Systems of Linear ODE with Constant coeffiicients}
+\begin{theorem}
+    \begin{equation}
+    \begin{cases}
+        \dot{x}(t) = A(t)x(t)+ B(t)u(t) \qquad [C]\\
+        \dot{x}(t) = A(t)x(t)  \qquad [H]
+    \end{cases}
+    \end{equation}
+    Then $e^{At}$ is a fundamental matrix of [H]. $e^{A(t-t_0)}$ is a state transtition matrix.
+\end{theorem}
+\begin{proof}
+    $e^{At}$ is invertible, $(e^{At})^{-1} = e^{-At}$. And $\frac{\dd}{\dd t}(e^{At}) = A e^{At}$. By Theorem 6.9, we know $e^{A(t-t_0)} = e^{At} (e^{At_{0}})^{-1}$ is a state transtition matrix.
+\end{proof}
+
+\begin{theorem}
+    General solution to [H] is $x(t) = e^{A(t-t_{0})}x(t_{0})  $.
+
+    General solution to [C] is $x(t) = e^{A(t-t_{0})}x(t_{0}) + \int_{t_{0}}^{t} e^{A(t-s)}B(s)u(s) \dd s$.
+\end{theorem}
+
+\textbf{Exercise}: Find the general solution of \[
+    \begin{bmatrix}
+        \dot{x}_{1}(t)\\
+        \dot{x}_{2}(t)
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        a_{1} & 0\\
+        0 & a_{2}
+    \end{bmatrix}
+    \begin{bmatrix}
+        {x}_{1}(t)\\
+        {x}_{2}(t)
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        1 & 0\\
+        0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        u_{1}(t)\\
+        u_{2}(t)
+    \end{bmatrix}
+\]
+
+\section{Stability of Systems of ODE}
+\begin{theorem}
+    Consider a linear system $\dot{x}(t) = A x (t)$
+    \begin{enumerate}
+        \item [(a)] 0 is a unique equilibrium point $\iff$ $\det A \neq 0$
+        \item [(b)] 0 is a stable equilibrium point $\iff$ all eigenvalues of $A$ have negative real parts.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    (a) Suppose $Ax = 0$ 
+
+    ``\imp'' part: $Ax \neq 0$ for any $x \neq 0$ \imp $\det(A) \neq 0$. Contradiction!
+
+    ``$\Longleftarrow$'' part: $Ax = 0$ \imp $x=0$ is the unique equilibrium point.
+
+    (b) Suppose $A$ is diagonalizable [if not, a similar argument can be developed using Jordan decomposition]. So $A = P D P^{-1}$ \imp $\dot{x} = P D P^{-1} x $ \imp $\underbrace{P^{-1} \dot{x}}_{y} = D \underbrace{ P^{-1} x}_{\dot{y}}$ $\iff$ $\dot{y} = D y$.
+
+    Note that $\lim_{t \to \infty} x(t) = 0 \iff \lim_{t \to \infty} y(t) = 0 $.
+
+    Now look at $\dot{y} = D y$:
+    $$\dot{y} = \begin{bmatrix}
+        \dot{y}_{1}\\
+        \vdots\\
+        \dot{y}_{n}
+    \end{bmatrix} = 
+    \begin{bmatrix}
+        d_{1} & &0 \\
+            & \ddots &\\
+        0&& d_{n}
+    \end{bmatrix}
+    \begin{bmatrix}
+        y_{1}\\
+        \vdots\\
+        y_{n}
+    \end{bmatrix}
+    \iff 
+    \dot{y}_{j} = d_{j} y_{j}, ~ j = 1, ..., n.$$
+    $y_{j}(t) = c_{j} e^{\alpha_{t} t} = c_{j} e^{(a_{t}+ i b_{j}) t}.$
+    Then $\lim_t y_{j}(t) = 0 \iff a_{j} < 0 
+    $. Hence the conclusion follows.
+\end{proof}
+
+\begin{theorem}
+    Consider a non-linear system $\dot{x} = f(x), ~ f : \mathbb{Q}^{n} \to \mathbb{R}^{n}$. Suppose $f$ is $C^{1}$ and $\tilde{x}$ is an equilibrium point. Then
+    \begin{itemize}
+        \item [(a)] all eigenvalues of $Df(\tilde{x})$ havenegative real parts \imp $\tilde{x}$ is locally asymptotically stable.
+        \item [(b)] at least one eigenvalue of  $Df(\tilde{x})$ has positive real part \imp $\tilde{x}$ is unstable.
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    (For a rigorous argument, see Hartman-Grobman theorem.)
+
+    By Taylor theorem,
+    \[
+    \underbrace{f(x)}_{\dot{x}} = \underbrace{f(\tilde{x})}_{=0}+ Df(\tilde{x})(x-\tilde{x}) + \Gamma (x - \tilde{x})
+    \]
+    and $\lim_{x\to \tilde{x}} \frac{\Gamma (x - \tilde{x})}{||x - \tilde{x}||} = 0$.
+    \[
+    \Longrightarrow \dot{x} = D f (\tilde{x}) (x- \tilde{x}) + \Gamma (x-\tilde{x})
+    \]
+    \[
+    \iff \frac{\dd}{\dd t}(x - \tilde{x}) = Df(\tilde{x})\underbrace{(x-\tilde{x})}_{y} + \Gamma (x- \tilde{x})
+    \]
+    \[
+    \Longrightarrow \dot{y} = D f(\tilde{x}) y + \Gamma (y)
+    \]
+    Then when $x$ is close to $\tilde{x}$, or $y $ is close to $0$, the stability of the original system is determined by the stability of its linearized version: $\dot{y} = Df(\tilde{x})y$. The conclusion follows from Theorem 7.3.
+\end{proof}
+
+\subsection*{Phase Diagrams}
+\begin{equation}
+    \begin{cases}
+        \dot{x_{1}} = f_{1}(x_{1}, x_{2})\\
+        \dot{x_{2}} = f_{2}(x_{1}, x_{2})
+    \end{cases}
+\end{equation}
+\begin{example}
+    \begin{equation}
+    \begin{cases}
+        \dot{x_{1}} = x_{2}\\
+        \dot{x_{2}} = x_{1}
+    \end{cases} \iff
+    \begin{bmatrix}
+        \dot{x_{1}} \\
+        \dot{x_{2}} 
+    \end{bmatrix} = 
+    \begin{bmatrix}
+        0&1\\
+        1&0
+    \end{bmatrix}
+    \begin{bmatrix}
+        \dot{x_{1}} \\
+        \dot{x_{2}} 
+    \end{bmatrix}
+\end{equation}
+\begin{center}
+    \texttt{[Insert a phase diagram here]}
+\end{center}
+\end{example}
+\begin{remark}
+    Saddle path correspondences to an eigenvector with eigenvalue that has negative real part.
+\end{remark}
+
+
+

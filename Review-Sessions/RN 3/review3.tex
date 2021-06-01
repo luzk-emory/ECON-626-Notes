@@ -1,0 +1,577 @@
+% See instructions in the preamble file
+\documentclass[twoside]{article}
+
+\input{preamble/preamble}
+\usepackage{hyperref}
+\newcommand\pp{\partial}
+
+\begin{document}
+
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{3}{Review Session \#3}{Aliaksandr Zaretski}{Zhikun Lu}
+\footnotetext[1]{Visit \url{http://www.luzk.net/misc} for updates.}
+
+%\tableofcontents
+
+\section{First order linear ODE}
+\begin{equation}
+    \begin{cases}
+        x'+a(t)x = g(t) &\text{ [C] }\\
+        x'+a(t)x = 0    &\text{ [H] }\\
+    \end{cases}
+\end{equation}
+\underline{Integrating factor}
+\begin{equation}
+     x'b(t)+a(t)b(t)x = b(t)g(t)
+\end{equation}
+\begin{equation}
+    \frac{\dd}{\dd t} (x(t)b(t)) = x'(t)b(t) + x(t)b'(t)
+\end{equation}
+We need
+\begin{equation}
+    b'(t) = a(t)b(t) \Longrightarrow b(t) = C_3 e^{\int a(t) \dd t}
+\end{equation}
+Then $b(t) = C_3 e^{\int a(t) \dd t}$ -- integrating factor
+\begin{eqnarray}
+    &&\frac{\dd}{\dd t} (x(t)b(t)) = b(t)g(t)\\
+    &\Longrightarrow& x(t)b(t) = \int b(t)g(t) \dd t + C_1\\
+    &\Longrightarrow& x(t) = \frac{1}{b(t)} \int b(t)g(t) \dd t + \frac{C_1}{b(t)}\\
+    &\Longrightarrow& x(t) = e^{-\int a(t) \dd t} \int e^{\int a(t) \dd t}g(t) \dd t + {C_1}e^{-\int a(t) \dd t} = \text{(particular solu) + (general solu)}
+\end{eqnarray}
+
+\section{Linear ODE}
+\begin{equation}
+    L(t)x(t) = g(t)
+\end{equation}
+\begin{equation}
+    L(t) = \frac{\dd^n}{\dd t^n} + a_{n-1}(t)\frac{\dd^{n-1}}{\dd t^{n-1}} + ... + a_{1}(t)\frac{\dd}{\dd t} + a_0(t)
+\end{equation}
+\begin{equation}
+    \Longrightarrow x^{(n)}(t)+a_{n-1}x^{(n-1)}(t) + ... + a_1(t)x'(t)+a_0(t)x(t) = g(t) \qquad \text{[C] -- complete equation}
+\end{equation}
+\begin{equation}
+    L(t)x(t) = 0 \qquad \text{[H] -- homogeneous equation}
+\end{equation}
+
+\begin{remark}
+    We will denote $\{C\}$ the set of solutions to [C], $\{H\}$ the set of solutions to [H].
+\end{remark}
+
+\begin{theorem}
+    If $g, a_0, a_1, ...$ are continuous, $\exists$ a unique solution to [C] for each initial condition $x(t_0) = x_0, x'(t_0) = x'_0, ..., x^{(n-1)}(t_0) = x^{(n-1)}_0$.
+\end{theorem}
+\begin{proof}
+    Follows from the n-th order version of Theorem 1.1.
+    \footnote{Warning: The labelling of theorem is likely to be inconsistent in these notes.}
+\end{proof}
+
+\begin{theorem}
+    $x(t)$ is a solution to [C]
+    $\iff$ $x(t) = x_h(t) + x_p(t) $ for some $x_p(t)$ [particular solution to [C]], and where $x_n(t)$ is the general solution to [H].
+\end{theorem}
+\begin{proof}~\\
+    $\Longleftarrow$:
+    \begin{equation}
+        L(t)(x_h(t)+x_p(t)) = L(t)x_h(t)+L(t) x_p(t) = g(t) + 0 = g(t)
+    \end{equation}
+    $\Longrightarrow$:
+    \begin{equation}
+        L(t)x(t) = g(t) ~\&~ L(t)x_h(t) = 0 \Longrightarrow L(t)(x(t) - x_h(t)) = g(t)
+    \end{equation}
+    Let $x_p(t) = x(t) - x_h(t)$, and we have
+    \begin{equation}
+        x(t) = x_h(t) + x_p(t)
+    \end{equation}
+\end{proof}
+
+\begin{theorem}
+    $\{H\}$ is a vector space.    
+\end{theorem}
+\begin{proof}
+    Let $E\subseteq \mathbb{R}$ be the domain of $x_n(t)$. Then let $\mathcal{F}$ be the space of functions mapping $E \mapsto \mathbb{R}$. This is a vector space, and $\{H\} \subseteq \mathcal{F}$. Let $c_1,c_2 \in \mathbb{R}, x_1(t), x_2(t) \in \{H\}$. Then
+    \begin{equation}
+        L(t)[c_1x_1(t)+c_2x_2(t)] = c_1L(t)x_1(t)+c_2L(t)x_2(t) = 0 + 0 = 0.
+    \end{equation}
+    Hence, $c_1x_1(t)+c_2x_2(t) \in \{H\}$. Hence, $\{H\}$ is a subspace of $\mathcal{F}$. $\Longrightarrow$ $\{H\}$ is a vector space.
+\end{proof}
+
+\begin{theorem}
+    Let $x_1(t),...,x_n(t) \in \{H\}$ be the particular solutions that satisfies the following initial conditions:
+    \begin{eqnarray}
+        x_1(t_0)&=&1, x_1'(t_0)=0, ..., x_1^{(n-1)}(t_0)=0\\
+        x_2(t_0)&=&0, x_2'(t_0)=1, ..., x_2^{(n-1)}(t_0)=0\\
+        &\vdots& \notag\\
+        x_n(t_0)&=&0, x_n'(t_0)=0, ..., x_n^{(n-1)}(t_0)=1
+    \end{eqnarray}
+    Then $\{x_1(t),...,x_n(t) \}$ is the basis of $\{H\}$.
+\end{theorem}
+\begin{proof}
+    First, $\{x_1(t),...,x_n(t) \}$ are linearly independent. To see this, consider
+    \begin{equation}
+        c_1 x_1(t)+...+c_n x_n(t) = 0.
+    \end{equation}
+    Evaluate it at $t = t_0$,
+    \begin{equation}
+        c_1 x_1(t_0)+...+c_n x_n(t_0) = 0 \Longrightarrow c_1 = 0.
+    \end{equation}
+    Then differentiate (3.21) w.r.t. to $t$:
+    \begin{equation}
+        c_1 x_1'(t)+...+c_n x_n'(t) = 0,
+    \end{equation}
+    and evaluate it at $t = t_0$,
+    \begin{equation}
+        c_1 x_1'(t_0)+...+c_n x_n'(t_0) = 0 \Longrightarrow c_2 = 0.
+    \end{equation}
+    Simlarly, we can get $c_3, ..., c_n = 0$. Hence, $\{x_1(t),...,x_n(t) \}$ are linearly independent.
+
+    Now take any $z(t) \in \{H\}$. And suppose 
+    $$z(t_0) = z_0, z'(t_0)=z_0', ..., z^{(n-1)}(t_0)=z_0^{(n-1)}.$$
+    Let
+    \begin{equation}
+        \tilde{z}(t) = z_0 x_1(t) + z_0' x_2(t) + ... + z_0^{(n-1)}x_n(t)
+    \end{equation}
+    Then
+    \begin{eqnarray}
+        \tilde{z}(t_0)&=& z_0 x_1(t_0) + z_0' x_2(t_0) + ... + z_0^{(n-1)}x_n(t_0) = z_0 * 1 + 0 + ... + 0 = z_0\\
+        &\vdots& \notag\\
+        \tilde{z}^{(n-1)}(t_0)&=& z_0 x^{(n-1)}_1(t_0) + z_0' x^{(n-1)}_2(t_0) + ... + z_0^{(n-1)}x^{(n-1)}_n(t_0) = {z}^{(n-1)}_0
+    \end{eqnarray}
+    As $L(t)\tilde{z}(t) = z_0 L(t) x_1(t) + z_0' L(t) x_2(t) + ... + z_0^{(n-1)}L(t) x_n(t) = 0$, $\tilde{z}(t)$ is a solution to [H]. Further, $z$ and $\tilde{z}$ satisfy the same initial conditions. Hence, by uniqueness, $z = \tilde{z}$. Hence, $\{x_1(t),...,x_n(t) \}$ is the basis of $\{H\}$.
+\end{proof}
+
+\begin{corollary}
+    $\dim \{H\} = n$.
+\end{corollary}
+
+\section{Linear ODE with constant coefficient}
+$Lx(t) = g(t)$, where $
+{L} = \frac{\dd^n }{\dd t^n}+ a_{n-1}\frac{\dd^{n-1} }{\dd t^{n-1}} + ... + a_1\frac{\dd }{\dd t}+ a_0$
+\begin{equation}
+    \begin{cases}
+        Lx(t) = g(t) &\iff  x^{(n)}(t)+ a_{n-1}x^{(n-1)}(t) + ... + a_1 x'(t) + a_0 x(t) = g(t) \qquad [C]\\
+        Lx(t) = 0    &\iff  x^{(n)}(t)+ a_{n-1}x^{(n-1)}(t) + ... + a_1 x'(t) + a_0 x(t)  = 0 \qquad [H]
+    \end{cases}
+\end{equation}
+
+\begin{definition}
+    \begin{equation}
+        \lambda^n + a_{n-1} \lambda^{n-1} + ... + a_1 \lambda + a_0 = 0
+    \end{equation}
+    is the \underline{characteristic equation} associated to [H].
+\end{definition}
+
+\begin{theorem}
+    $x(t) = e^{\lambda t}$ is a solution to [H] $\iff$ $\lambda$ is a solution to the characteristic equation associated with [H].
+\end{theorem}
+\begin{proof}
+    $x(t) = e^{\lambda t} \Longrightarrow x'(t) = \lambda e^{\lambda t}, x''(t) = \lambda^2 e^{\lambda t}, ..., x^{(n)}(t) = \lambda^n e^{\lambda t}$
+    Then substitute into [H] $\Longrightarrow$
+    \begin{equation}
+        \lambda^{n}e^{\lambda t}+ a_{n-1}\lambda^{n-1}e^{\lambda t} + ... + a_1 \lambda e^{\lambda t} + a_0 \lambda e^{\lambda t}  = 0
+    \end{equation}
+    \begin{equation}
+        \iff \lambda^{n}+ a_{n-1}\lambda^{n-1} + ... + a_1 \lambda  + a_0 \lambda   = 0
+    \end{equation}
+\end{proof}
+
+\section{Complex Numbers} 
+
+$\mathbb{C}$ -- the set of Complex numbers. 
+
+If $z\in \mathbb{C}$, then $Z = a+b i $, where $a$ is the real part and $b$ is the imaginary part.
+
+\underline{Polar form}: We use $|z| = \sqrt{a^2+b^2}$ -- modulus. Then $z = |z|e^{i \theta} = |z|({\cos \theta + i \sin \theta})$.
+
+If $\theta = \pi$, then $e^{i\pi} = -1$ (Euler's identity).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%=======================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%=======================================
+
+%$$##
+\clearpage
+\section*{References}
+%\beginrefs
+%\bibentry{CW87}{\sc D.~Coppersmith} and {\sc S.~Winograd}, 
+%``Matrix multiplication via arithmetic progressions,''
+%{\it Proceedings of the 19th ACM Symposium on Theory of %Computing},
+%1987, pp.~1--6.
+%\endrefs
+
+% **** THIS ENDS THE EXAMPLES. DON'T DELETE THE FOLLOWING LINE:
+
+\end{document}
+
+\section{Differential Equations}
+\subsection{Basic concepts}
+\begin{definition}
+    Let $E \in \mathbb{R}$ and $ x \in E \rightarrow \mathbb{R}$ be an unknow function. An ODE of order n is an equation of the from
+    $$F(t,x,x',x'', ... , x^{(n)}) = 0$$
+    where $F(\cdot)$ is known, real-valued.\\
+    This is an implicit equation. We will work with the explicit equations:
+    \[
+    x^{(n)} = f(t,x,x',x'', ... , x^{(n-1)})
+    \]
+    $f(\cdot)$ is an known real-valued function.
+\end{definition}
+
+\begin{definition}
+    Let $E \in \mathbb{R}^k$. An PDE of order n is an equation of the from
+    $$F(t,x, \mathrm{D} x,\mathrm{D}^2 x, ... , \mathrm{D}^{n}x) = 0$$
+    where $F(\cdot)$ is known, real-valued.
+\end{definition}
+
+This is an implicit equation. We will work with the explicit equations:
+\[
+x^{(n)} = f(t,x,x',x'', ... , x^{(n-1)})
+\]
+$f(\cdot)$ is an known real-valued function.
+
+\begin{example} (ODE)
+    \[
+    [x'''(t)]^4 + e^{- \xi t} x''(t) + x(t) = \tan t
+    \]
+    Here, the order is 3, the degree is 4., exogenous variable: $t$, endogenous variable: $x$.
+\end{example}
+
+\begin{theorem}
+    Let $E \in \mathbb{R}^2$, and $f: E \rightarrow \mathbb{R}$. If $f$ is continuously differentiable ($C^1$) at $(t_0, x_0) \in E$, then $\exists \epsilon > 0$ and a unique $C^1$ function $t \mapsto x(t)$, such that 
+    $$x'(t) = f(t,x(t)), \forall t \in (t_0- \epsilon, t_0 + \epsilon),$$ and also $x(t_0) = x_0$
+\end{theorem}
+
+\begin{remark} 
+    A \underline{general solution} to an ODE is a set of all solutions.
+    A \underline{particular solutions} is a solution that satisfies \underline{initial conditions}.
+\end{remark}
+
+The number of initial conditions must be equal to the order of an ODE. For example, if you solve 
+$$
+x^{(n)}(t) = f(t, x', ..., x^{(n-1)})
+$$
+provide $x(t_0),x'(t_0), ..., x^{(n-1)}(t_0).$
+
+\begin{definition}
+    An ODE is linear if it takes the form $\mathrm{L}x(t) = g(t)$, where g is a known real-valued function, L is the linear differential operator,
+    \[
+    \mathrm{L} = a_0(t) + a_1(t)\frac{\dd }{\dd t}+ ... + a_n(t)\frac{\dd^n }{\dd t^n}.
+    \]
+    Then $$\mathrm{L}x(t) = a_0(t) x(t) + a_1(t)\frac{\dd x(t)}{\dd t}+ ... + a_n(t)\frac{\dd^n x(t)}{\dd t^n} = g(t)$$
+\end{definition}
+
+\begin{definition}
+    An ODE is nonlinear if it is not linear.
+\end{definition}
+
+\subsection{Some common types of ODE}
+\subsubsection{Separable ODEs}
+\begin{equation}
+    \begin{aligned}
+        x'(t) = f(x)g(t) &\Longrightarrow \frac{\dd x}{\dd t} = f(x)g(t) \Longrightarrow
+        \frac{\dd x}{f(x)}  = g(t) \dd t\\
+        &\Longrightarrow \int \frac{\dd x}{f(x)}  = \int g(t) \dd t
+    \end{aligned}
+\end{equation}
+
+\begin{example}
+    \begin{equation}
+    \begin{aligned}
+        \frac{\dd x}{\dd t} = \frac{x}{t} \iff \int \frac{\dd x}{x} = \int \frac{ \dd t}{t}
+        \Longrightarrow 
+        \ln |x| = \ln |t| + C_1
+        &\Longrightarrow 
+        |x| = |t| e^{C_1} \equiv C_2 |t|\\
+        &\Longrightarrow x = C_3 t
+    \end{aligned}
+    \end{equation}
+    Suppose $x(1) = 5$, then $|x| = C_2 |t| \Longrightarrow x(t) = 5t$.
+\end{example}
+
+\subsubsection{Reducible to separable} 
+Suppose we have
+\[
+x'(t) = f(a x + b t + c)
+\]
+Let $z = a x + b t + c$, then $z'(t) = a x'(t)+b = f(z) + b$, then $\frac{\dd z}{a f(z) + b} = \dd t$,
+\[
+    \int \frac{\dd z}{a f(z) + b} = \int \dd t = t + C_1
+    \Longrightarrow \text{solve for } z(t) \Longrightarrow \text{solve for } x(t)
+\]
+
+\begin{example}
+    Let $a = -1, b=1, c= 0$,
+    \[
+    \frac{\dd x}{\dd t} = \frac{1}{t-x} + 1
+    \]
+    The left hand side seems not separable. Let $z = t-x$, so $f(z) = \frac{1}{z}+1$. Then 
+    \[
+    \int \frac{\dd z}{-\frac{1}{z}-1+1} = t + C_1
+    \iff \int z \dd z = -t - C_1 \Longrightarrow \frac{z^2}{2} = -t + C_2 \iff {z^2} = -2t + C_3
+    \]
+    \begin{equation}
+    x(t) = t \pm \sqrt{-2t + C_3} \quad \text{- general solution}
+    \end{equation}
+    With initial condition $x(0) = 5$, then $5 = \pm \sqrt{C_3} \Longrightarrow C_3 = 25$. Hence
+    \begin{equation}
+        x(t) = t + \sqrt{-2t + 25} \quad \text{- particular solution}
+    \end{equation}
+\end{example}
+
+\subsection{Homogeneous ODEs}
+Homogeneous ODEs have the following form
+\[
+\frac{\dd x}{\dd t} = f(\frac{x}{t})
+\]
+Let $z = \dfrac{x}{t} \Longrightarrow x(t) = t z(t), x'(t) = z(t) + t z'(t) $. 
+Hence, the original ODE can be transformed into
+\begin{equation}
+    z(t) + t z'(t) = f(z) \Longrightarrow \frac{\dd z}{f(z) - z} = \frac{\dd t}{t}
+\end{equation}
+\begin{equation}
+    \int \frac{\dd z}{f(z) - z} = \ln |t| + C
+\end{equation}
+
+\begin{example}
+    $\frac{\dd x}{\dd t} = \tan(\frac{x}{t}) + \frac{x}{t}$. So $ f(z) = \tan z + z $. Hence
+    \begin{equation}
+        \int \frac{\dd z}{\tan z} = \ln |t| + C \Longrightarrow \ln | \sin z| = \ln |t| + C \iff |\sin z | = C_1 |t| \iff z(t) = \arcsin (C_2 t)
+    \end{equation}
+    \begin{equation}
+        \Longrightarrow \frac{x(t)}{t} = \arcsin (C_2 t) \Longrightarrow x(t) = t \arcsin (C_2 t) \quad \text{-\quad general solution}
+    \end{equation}
+    Now suppose $x(t_0) = x_0$, ..., 
+    \begin{equation}
+        \Longrightarrow x(t) = t \arcsin (\frac{t}{t_0}\sin(\frac{x_0}{t_0}))
+    \end{equation}
+\end{example}
+
+
+\section{Reducible to homogeneous} 
+\begin{equation}
+    M(x,t)\dd x + N(x,t)\dd t = 0 \quad \text{if} \quad \begin{cases}
+        M(\lambda x,\lambda t) = \lambda^k M(x,t)\\
+        N(\lambda x,\lambda t) = \lambda^k N(x,t)
+    \end{cases}
+\end{equation}
+\begin{equation}
+    \iff \frac{\dd x}{\dd t} = - \frac{N(x,t)}{M(x,t)} = - \frac{(\frac{1}{t})^k N(x,t)}{(\frac{1}{t})^kM(x,t)} = - \frac{N(\frac{x}{t},1)}{M(\frac{x}{t},1)} = f(\frac{x}{t}),
+\end{equation}
+assuming M and N are homogeneous of order k.
+
+\begin{example}
+    $$(t+x)\dd t - (x-t) \dd x = 0 \Longrightarrow \frac{\dd x}{\dd t} = \frac{\frac{x}{t}+1}{\frac{x}{t}-1}$$
+    Set $ z = \frac{x}{t}$, then $f(z) = \frac{z+1}{z-1}$.
+    \[
+    \int \frac{\dd z}{f(z)-z} = \ln |t| + C \Longrightarrow \int \frac{\dd z}{\frac{z+1}{z-1}-z} = \ln |t| + C \Longrightarrow \dots \Longrightarrow \ln |z^2-2z-1| = -2 \ln |t| + C_2
+    \]
+    \[
+    \Longrightarrow |z^2-2z-1| = C_3 |t|^{-2} \Longrightarrow z^2-2z-1 = \frac{C_4}{ t^{2}}
+    \]
+    \[
+    \Longrightarrow (\frac{x}{t})^2 - 2\frac{x}{t} - 1 = \frac{C_4}{ t^{2}} \Longrightarrow x^2 - 2tx - t^2 - C_4 = 0
+    \]
+    \[
+    \Longrightarrow 
+    x = t \pm \sqrt{2t^2+C_4}
+    \]
+\end{example}
+
+\section{Exact ODE}
+\begin{equation}
+     M(x,t)\dd x + N(x,t)\dd t = 0
+\end{equation}
+Remember:
+\[
+    \dd f(x,t) = \frac{\partial f}{\partial x}\dd x + \frac{\partial f}{\partial t}\dd t
+\]
+If $f = 0$, then $\dd f = 0$. An implication is that
+\[
+    \frac{\partial M}{\partial t} = \frac{\partial N}{\partial x}
+\]
+Then $\frac{\partial f}{\partial x} = M(x,t)$ for some $f(x,t) = c$,
+\[
+    \int \partial f = \int M(x,t) \partial x
+\]
+
+\begin{example}
+    $(t+x)\dd t - (x-t) \dd x = 0$.
+
+    $\dfrac{\partial M}{\partial t} = 1 = \dfrac{\partial N}{\partial x}$ is satisfied.
+    $$\frac{\partial f}{\partial t} = N(x,t) = t+x $$
+    $$\int {\partial f}= \int (t+x) \partial t \iff f(x,t) = \frac{t^2}{2} + tx + g(x)$$
+    \[
+    \Longrightarrow \frac{\partial f}{\partial x} = t + g'(x) = t-x \Longrightarrow g'(x) = -x \Longrightarrow g(x) = - \frac{x^2}{2} + C_1
+    \]
+    \[
+    \Longrightarrow C = f(x,t) =  \frac{t^2}{2} + tx - \frac{x^2}{2} + C_1
+    \]
+    \[
+    \Longrightarrow {x^2} -2tx - {t^2} + C_2 = 0
+    \]
+    \[
+    \Longrightarrow x(t) =  
+    \]
+\end{example}
+
+\section{Inexact ODE}
+
+\begin{equation}
+     M(x,t)\dd x + N(x,t)\dd t = 0
+\end{equation}
+But $\frac{\partial M}{\partial t} = \frac{\partial N}{\partial x}$ is not satisfied.
+
+Multiplying by $\mu(x,t)$
+\begin{equation}
+    \Longrightarrow \mu(x,t) M(x,t)\dd x + \mu(x,t) N(x,t)\dd t = 0
+\end{equation}
+$$\tilde{M}(x,t) = \mu(x,t) M(x,t), \tilde{N}(x,t) = \mu(x,t) N(x,t)$$
+Want to find $\mu(x,t)$, such that \[
+    \frac{\partial \tilde{M}}{\partial t} = \frac{\partial \tilde{N}}{\partial x}.
+\]
+%then our previous method could apply.
+
+which implies
+
+\[
+    \frac{\pp \mu}{\pp t}M + \mu \frac{\pp M}{\pp t} = \frac{\pp \mu}{\pp x}N + \mu \frac{\pp N}{\pp x}
+\]
+which is a PDE.
+
+Try $\mu(x)$ or $\mu(t)$
+
+\begin{example}
+    \[
+    2t \dd x + x \dd t= 0
+    \]
+    Conjecture $\mu(x)$ (not a function of $t$)
+    \[
+    \mu(x)2t\dd x + \mu(x)x \dd t = 0 \Longrightarrow \mu(x) = C_1 x
+    \]
+    Set $C_1 = 1$ w.l.o.g.
+    \[
+    \Longrightarrow 2tx\dd x + x^2 \dd t = 0
+    \]
+    then our previous method could apply. (Exercise)
+\end{example}
+
+\section{Bernoulli ODE}
+\begin{eqnarray}
+    &&x' + P(t)x = Q(t)x^n\\
+    &\Longrightarrow& x'x^{-n} + P(t)x^{1-n} = Q(t)\\
+    &\iff& \frac{1}{1-n} \frac{\dd x^{1-n}}{\dd t} + P(t) x^{1-n} = Q(t)\\
+    && \text{Let} \quad z = x^{1-n}\\
+    &\Longrightarrow& \frac{1}{1-n} \frac{\dd z}{\dd t} + P(t) z = Q(t)\\
+    &\Longrightarrow& \frac{\dd z}{\dd t} + (1-n)P(t) z = (1-n)Q(t)
+\end{eqnarray}
+which is a first order linear ODE.
+
+\section{First order linear ODE}
+$L x(t) = g(t)$, where $L = a_0(t)+a_1(t)\frac{\dd}{\dd t}$
+\[
+\Longrightarrow a_0(t)x(t)+a_1(t)x'(t) = g(t)
+\]
+WLOG, set $a_1(t) = 1$, then we get 
+\begin{equation}
+    x'(t) + a(t)x(t) = g(t) \qquad \text{[C] -- the complete equation}
+\end{equation}
+
+\textbf{Variabtion of parameters (constants)/Lagrangian method}
+
+Start with the homogeneous equation [H]
+\begin{equation}
+    x'(t) + a(t)x(t) = 0 \qquad \text{[H]}
+\end{equation}
+\begin{eqnarray}
+    &\Longrightarrow& \frac{\dd x}{\dd t} = - a(t)x\\
+    &&\qquad \vdots \notag\\
+    &\Longrightarrow& x(t) = C_3 e^{-\int a(t) \dd t}
+\end{eqnarray}
+which is the general solution to [H].
+
+Then we look for a particular solution to [C]. Guess \begin{equation}
+    x(t) = C(t)e^{-\int a(t) \dd t}
+\end{equation}
+and substitute into [C], we get
+\begin{equation}
+    C'(t)e^{-\int a(t) \dd t} + C(t)e^{-\int a(t) \dd t}(-a(t)) + a(t)x(t) = g(t)
+\end{equation}
+\begin{equation}
+    C'(t)e^{-\int a(t) \dd t} = g(t)
+\end{equation}
+Hence, we have
+\begin{equation}
+    C'(t) = g(t)e^{\int a(t) \dd t}
+\end{equation}
+\begin{equation}
+    \Longrightarrow \int \dd C = \int g(t)e^{\int a(t) \dd t} \dd t
+\end{equation}
+\begin{equation}
+    C(t) = \int g(t)e^{\int a(t) \dd t} \dd t + C_1
+\end{equation}
+\begin{equation}
+\begin{aligned}
+    \Longrightarrow x(t) &= \left (\int g(t)e^{\int a(t) \dd t} \dd t + C_1 \right ) e^{-\int a(t) \dd t}\\
+    &= C_1 e^{-\int a(t) \dd t} + e^{-\int a(t) \dd t} \int g(t)e^{\int a(t) \dd t} \dd t
+\end{aligned}
+\end{equation}
+Note that $C_1 e^{-\int a(t) \dd t}$ is a general solution to [H] and $\tilde{C}(t) e^{-\int a(t) \dd t}$ with $\tilde{C}(t) = \int g(t)e^{\int a(t) \dd t} \dd t$ is a particular solution to [C]. Combined together, they form the general solution.
+     
+
+
+
+
+

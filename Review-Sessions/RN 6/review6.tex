@@ -1,0 +1,356 @@
+% See instructions in the preamble file
+\documentclass[twoside]{article}
+
+\input{preamble/preamble}
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage{listings}
+\newcommand\pp{\partial}
+\newcommand\pd{\partial}
+\newcommand\imp{$\Longrightarrow$}
+\newcommand\lb{\left (}
+\newcommand\rb{\right )}
+\newcommand\lsb{\left [}
+\newcommand\rsb{\right ]}
+\newcommand\lcb{\left \{}
+\newcommand\rcb{\right \}}
+
+\begin{document}
+
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{6}{Review Session \#6}{Aliaksandr Zaretski}{Zhikun Lu}
+\footnotetext[1]{Visit \url{http://www.luzk.net/misc} for updates.}
+
+\hfill Date: Date: September 5, 2018
+
+%\tableofcontents
+\begin{theorem}
+    Consider \begin{equation}
+        x^{(n)} + a_{n-1} x^{(n-1)} + ... + a_1 x' + a_0 = 0 \qquad [H]
+    \end{equation}
+    0 is a stable equilibrium point of [H] $\Longrightarrow a_0, a_1, ..., a_{n-1} > 0$.
+\end{theorem}
+\begin{theorem}[Routh--Hurwitz]
+    See the scanned page.
+\end{theorem}
+
+\section{System of linear ODE}
+\begin{equation}
+    \underbrace{\dot{x}(t)}_{n \times 1} = \underbrace{A(t)}_{n \times n} \underbrace{x(t)}_{n \times 1} + \underbrace{B(t)}_{n \times m} \underbrace{u(t)}_{m \times 1}
+\end{equation}
+\begin{remark}
+    Consider 
+    $$y^{(n)} + a_{n-1}(t)y^{(n-1)}+...+a_{1}(t)y' + a_{0}(t)y = g(t) $$
+    Let 
+    \[
+    \begin{cases}
+        x_1 &\equiv y\\
+        x_2 &\equiv y'\\
+        &\vdots\\
+        x_n &\equiv y^{(n-1)}
+    \end{cases}
+    \Longrightarrow
+    \begin{cases}
+        \dot{x}_1 &\equiv x_2\\
+        \dot{x}_2 &\equiv x_3\\
+        &\vdots\\
+        \dot{x}_{n-1} &\equiv x_n
+    \end{cases}
+    \]
+
+    \[  \Longrightarrow
+        \dot{x}_n + a_{n-1}(t)x_n+...+a_{1}(t)x_2 + a_{0}(t)x_1 = g(t)
+    \]
+
+    \[
+    x(t) = \begin{bmatrix}
+       x_1(t) \\[0.3em]
+       \vdots \\[0.3em]
+       x_n(t)      
+     \end{bmatrix}
+     \qquad
+    u(t) = \begin{bmatrix}
+       u_1(t) \\[0.3em]
+       \vdots \\[0.3em]
+       u_m(t)      
+     \end{bmatrix}
+    \]
+
+    \[
+    A(t) = \begin{bmatrix}
+       a_{11}(t)& \cdots & a_{1n}(t)    \\[0.3em]
+       \vdots   &        & \vdots       \\[0.3em]
+       a_{n1}(t)& \cdots & a_{nn}(t)    
+     \end{bmatrix}
+     \qquad
+    B(t) = \begin{bmatrix}
+       b_{11}(t)& \cdots & b_{1m}(t)    \\[0.3em]
+       \vdots   &        & \vdots       \\[0.3em]
+       b_{n1}(t)& \cdots & b_{nm}(t)    
+     \end{bmatrix}
+    \]
+    Then we have
+    \begin{equation}
+    \underbrace{\begin{bmatrix}
+            \dot{x}_1(t) \\[0.3em]
+            \dot{x}_2(t) \\[0.3em]
+            \vdots \\[0.3em]
+            \dot{x}_{n-1}(t) \\[0.3em]
+            \dot{x}_n(t)      
+         \end{bmatrix}}_{\dot{x}(t)} 
+    = \underbrace{\begin{bmatrix}
+            0 & 1& 0& \cdots   & 0 & 0   \\[0.3em]
+            0 & 0& 1& \cdots   & 0 & 0   \\[0.3em]
+            \vdots & \vdots   & \vdots   &   \ddots     & \vdots& \vdots       \\[0.3em]
+            0 & 0& 0& \cdots   & 0 & 1   \\[0.3em]
+            -a_0(t) & -a_{1}(t)& -a_{2}(t)& \cdots & -a_{n-2}(t)& -a_{n-1}(t)    
+          \end{bmatrix}}_{A(t)}
+    \underbrace{\begin{bmatrix}
+            x_1(t) \\[0.3em]
+            x_2(t) \\[0.3em]
+            \vdots \\[0.3em]
+            x_{n-1}(t) \\[0.3em]
+            x_n(t)      
+         \end{bmatrix}}_{x(t)} + 
+    \underbrace{\begin{bmatrix}
+            0 \\[0.3em]
+            0 \\[0.3em]
+            \vdots \\[0.3em]
+            0 \\[0.3em]
+            1         
+        \end{bmatrix} }_{B(t)} \underbrace{g(t)}_{u(t)}
+    \end{equation}
+\end{remark}
+
+\begin{theorem}
+    If all elements of $A(t), B(t), u(t)$ are continuous, then $\forall$ initial condition $x(t_{0}) = x^{0}$, $\exists$ a unique solution to [C]
+\end{theorem}
+
+\begin{remark}  
+    \begin{equation}
+        \dot{x}(t) = A(t)x(t)+ B(t)u(t) \qquad [C]
+    \end{equation}
+    \begin{equation}
+        \dot{x}(t) = A(t)x(t)  \qquad [H]
+    \end{equation}
+\end{remark}
+
+\begin{theorem}
+    $\lcb H \rcb$ is a vector space.
+\end{theorem}
+\begin{proof}
+    Excercise.
+\end{proof}
+
+\begin{theorem}
+    $\dim \lcb H \rcb = n$.
+\end{theorem}
+
+\begin{definition}
+    Let $\lcb x^1(t), ..., x^n(t) \rcb$ be a basis of $\lcb H \rcb$. Then \begin{equation}
+        \Phi(t) = (x^1(t), ..., x^n(t)) = \begin{bmatrix}
+            x_{1}^{1}(t)& \cdots & x_{1}^{n}(t)    \\[0.3em]
+       \vdots   &        & \vdots       \\[0.3em]
+       x_{n}^{1}(t)& \cdots & x_{n}^{n}(t)  
+        \end{bmatrix}
+    \end{equation}
+    where $\Phi(t)$ is a fundamental matrix of [H].
+\end{definition}
+
+\section{Systems of linear ODE}
+\begin{remark}
+    \begin{enumerate}
+        \item There are infinitely many fundamental matrices of [H]
+        \item $\dot{\Phi}(t) \equiv (\dot{x}^1(t), ..., \dot{x}^n(t)) 
+        = \begin{bmatrix}
+            \dot{x}_{1}^{1}(t)& \cdots & \dot{x}_{1}^{n}(t)    \\[0.3em]
+            \vdots   &        & \vdots       \\[0.3em]
+            \dot{x}_{n}^{1}(t)& \cdots & \dot{x}_{n}^{n}(t)  
+        \end{bmatrix}$
+    \end{enumerate}
+\end{remark}
+
+\begin{lemma}
+    $\Phi(t)$ is a fundamental matrix of [H] $\iff$ $\dot{\Phi}(t) = A(t)\Phi(t)$ and $\Phi(t)$ is invertible for all $t$.
+\end{lemma}
+\begin{proof}
+    ``\imp''
+    \begin{equation}
+        \dot{\Phi}(t) = (\dot{x}^1(t), ..., \dot{x}^n(t)) = (A(t){x}^1(t), ..., A(t){x}^n(t)) = A(t) (x^1(t), ..., x^n(t)) = A(t) \Phi(t)
+    \end{equation}
+    ``$\Longleftarrow$''
+
+    $\Phi(t)$ has linearly independent columns. Suppose $x(t)$ is a solution to [H] that satisfies $x(t_0) = x^{0}$. Consider $\tilde{x}(t) = \Phi(t)c$. Then $\tilde{x}(t_0) = \Phi(t_0) c \Longrightarrow c = \Phi(t_0)^{-1}\tilde{x}(t_0) $. 
+
+    Suppose $\tilde{x}(t_0) = x^0$. Then $\tilde{x}(t) = \Phi(t) \Phi(t_0)^{-1} x^0 $. Then
+    \begin{equation}
+        \dot{\tilde{x}}(t) = \dot{\Phi}(t)\Phi(t_0)^{-1} x^0 = A(t) \underbrace{\Phi(t) \Phi(t_0)^{-1} x^0}_{\tilde{x}(t)} = A(t) \tilde{x}(t)
+    \end{equation}
+    Hence $\tilde{x}(t)$ is a solution to [H]. By uniqueness, \begin{equation}
+        \tilde{x}(t) = x(t) = \Phi(t) \underbrace{\Phi(t_0)^{-1}x^0}_{c}
+    \end{equation}
+    Hence, $\Phi(t)$ has a basis of $\{ H \}$ as columns \imp fundamental matrix. 
+\end{proof}
+
+
+\begin{definition}
+    $\Phi(t,t_{0})$ is a \underline{state transition matrix of } [H] if 
+    \begin{enumerate}
+        \item $\dot{\Phi}(t,t_0) = A(t) {\Phi}(t,t_0)$
+        \item ${\Phi}(t_0,t_0) = I_{n}$
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    If $\Phi(t)$ is a fundamental matrx of [H], then $\Phi(t,t_{0}) = \Phi(t)\Phi(t_0)^{-1}$ is a state transition matrx.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+    \item $\dot{\Phi}(t,t_0) =  \dot{\Phi}(t)\Phi(t_0)^{-1} = A(t) {\Phi}(t) {\Phi}(t_0) = A(t) {\Phi}(t,t_0)$
+    \item ${\Phi}(t_0,t_0) = {\Phi}(t_0){\Phi}(t_0)^{-1} = I_n$
+\end{enumerate}
+\end{proof}
+
+\textbf{Remark}: State transition matrx is unique.
+\begin{proof}
+    Exercise.
+\end{proof}
+
+\begin{theorem}
+    Suppose assumptions of theorem ???(7.1) holds. Then $x(t) = \Phi(t,t_0)x^0$ is the unique solution to [H] that satisfies $x(t_0) = x^{0}$.
+\end{theorem}
+\begin{proof}
+    $x(t) = \Phi(t)c$ for some $c \in \mathbb{R}^n$ \imp $x(t_0) = \Phi(t_0)c$ \imp $c = \Phi(t_0)^{-1} x(t_{0})$
+
+    \imp $x(t)= \Phi(t)\Phi(t_0)^{-1}x(t_0) = \Phi(t,t_0)x(t_0)$
+\end{proof}
+
+\begin{remark}
+    $x(t) = \Phi(t) c, ~c \in \mathbb{R}^{n}$ is the general solution to [H].
+\end{remark}
+
+\begin{theorem}
+    The general solution to [C] is 
+    \begin{equation}
+        x(t) = \Phi(t) c + \int_{t_{0}}^{t} \Phi(t,s) B(s) u(s) \dd s.
+    \end{equation}
+    Hence, the solution that satisfies $x_{t_{0}} = x^{0}$ is \begin{equation}
+        x(t) = \Phi(t,t_{0}) x^{0} + \int_{t_{0}}^{t} \Phi(t,s) B(s) u(s) \dd s
+    \end{equation}
+\end{theorem}
+
+\section{Systems of linear ODE with constant coefficients}
+\begin{equation}
+    \dot{x}(t) = A x(t) + B(t)u(t) \qquad [C]
+\end{equation}
+\begin{equation}
+    \dot{x}(t) = A x(t) \qquad [H]
+\end{equation}
+\begin{definition}
+    Let $A \in \mathbb{R}^{n\times n}$. Then $e^{A} \equiv \sum_{k=0}^{\infty} \frac{A^{k}}{k!}$ is the \underline{matrix exponential} of A.
+\end{definition}
+\begin{theorem}
+    Let $A, B, C \in \mathbb{R}^{n\times n}$, and $c, d \in \mathbb{R}$.
+    \begin{enumerate}
+        \item Suppose $AB = BA$. Then \[
+        e^{cA}e^{dB} = e^{cA+dB}
+        \]
+        In particular, $e^{cA}e^{dA} = e^{(c+d)A}$.
+        \item $\det(e^{A}) = e^{tr{(A)}}$. Hence, $e^{A}$ is invertible $\forall A \in \mathbb{R}^{n \times n}$.
+        \item Suppose $D$ is diagonal, i.e. \[
+        D = diag(d_{i}) = \begin{bmatrix}
+            d_{1} & & 0\\
+            &\ddots& \\
+            0 & & d_{n}
+        \end{bmatrix}
+        \]
+        Then \[
+        e^{D} = diag(e^{d_{i}}) = \begin{bmatrix}
+            e^{d_{1}} & & 0\\
+            &\ddots& \\
+            0 & & e^{d_{n}}
+        \end{bmatrix}.
+        \]
+        In particular, $e^{0_{n \times n}} = I_{n}, ~e^{I_{n}} = e I_{n}$.
+        \item $(e^{A})^{-1} = e^{-A}$.
+        \item Let $A = P J P^{-1}$, where $J$ -- Jordan normal form, then \[
+        e^{A} = P e^{J} P^{-1}.
+        \]
+        Suppose $A$ is diagonalizable, $A = P D P^{-1}$, then $e^{A} = P e^{D} P^{-1}$
+        \item  $
+        \dfrac{\dd }{\dd t} \lb e^{At} \rb = A e^{At}.
+        $
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{itemize}
+        \item 1. follows from Binomial formula / Cauchy product.
+        \item 2. follows from Jacobi's formula.
+        \item 3. -- 6. Exercise.
+        \item For 4., use 1.
+    \end{itemize}
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+%=======================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%=======================================
+
+%$$##
+%\clearpage
+%\section*{References}
+%\beginrefs
+%\bibentry{CW87}{\sc D.~Coppersmith} and {\sc S.~Winograd}, 
+%``Matrix multiplication via arithmetic progressions,''
+%{\it Proceedings of the 19th ACM Symposium on Theory of %Computing},
+%1987, pp.~1--6.
+%\endrefs
+
+% **** THIS ENDS THE EXAMPLES. DON'T DELETE THE FOLLOWING LINE:
+
+\end{document}
+
+
+
+
+

@@ -1,0 +1,212 @@
+\documentclass[twoside]{article}
+
+\input{preamble/preamble}
+\usepackage{hyperref}
+\usepackage{cancel}
+\newcommand\pp{\partial}
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{3}{Dynamic Programming III}{Prof. Daniel Levy}{Zhikun Lu}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+\footnotetext[1]{Visit \url{http://www.luzk.net/misc} for updates.}
+
+\hfill Date: August 31, 2018
+
+\section{Value function iteration}
+\underline{Inital guess}: $V_0(K_{T+1}) = 0$
+\begin{equation}
+\Longrightarrow
+    V_1(K_T) = \begin{cases}
+        \max\limits_{\{C_T, K_{T+1}\}} [u(C_T)+ \beta V_0(K_{T+1})]\\
+        \quad s.t. \quad C_T + K_{T+1} = K_T^\alpha
+    \end{cases}
+\end{equation}
+Recall that $K_{T+1} = 0$ because it is the last period.
+\begin{equation}
+    \Longrightarrow \begin{cases}
+        K_{T+1} = 0\\
+        C_T =  K_T^\alpha
+    \end{cases}
+\end{equation}
+Plugging (3.2) into (3.1),  we get
+\begin{equation}
+    V_1(K_T) = \ln (K_T^\alpha).
+\end{equation}
+Let's continue:
+\begin{eqnarray}
+    V_2(K_{T-1}) &=& \begin{cases}
+        \max\limits_{\{C_{T-1}, K_{T}\}} [u(C_{T-1})+ \beta V_1(K_{T})]\\
+        \quad s.t. \quad C_{T-1} + K_{T} = K_{T-1}^\alpha
+    \end{cases}
+    \\
+    \Longrightarrow
+    V_2(K_{T-1}) &=& \begin{cases}
+        \max\limits_{\{C_{T-1}, K_{T}\}} u(C_{T-1})+ \beta \ln (K_T^\alpha)\\
+        \quad s.t. \quad C_{T-1} + K_{T} = K_{T-1}^\alpha
+    \end{cases}
+\end{eqnarray}
+\begin{equation}
+    \mathcal{L} = \ln C_{T-1} + \beta \ln (K_T^\alpha) + \lambda [K_{T-1}^\alpha - C_{T-1} - K_{T}]
+\end{equation}
+\underline{FONC}
+\begin{eqnarray}
+    \frac{1}{C_{T-1}} - \lambda = 0\\
+    \beta (\frac{1}{K_t^\alpha})(\alpha K_T^{\alpha-1}) - \lambda = 0   
+\end{eqnarray}
+\begin{eqnarray}
+    \Longrightarrow
+    \lambda &=& \frac{\alpha \beta}{K_T}\\
+    \lambda &=& \frac{1}{C_{T-1}}\\
+    \frac{\alpha \beta}{K_T} &=& \frac{1}{C_{T-1}} \quad \text{or} \quad C_{T-1} = \frac{K_T}{\alpha \beta}
+\end{eqnarray}
+\underline{Plug it into the constraint}
+\begin{eqnarray}
+    \frac{K_T}{\alpha \beta} + K_T = K_{T-1}^\alpha \\
+    \Longrightarrow K_T = \frac{\alpha \beta}{1+\alpha \beta} K_{T-1}^\alpha 
+\end{eqnarray}
+\begin{equation}
+    C_{T-1} = \frac{K_T}{\alpha \beta} = \frac{1}{\cancel{\alpha \beta}} \frac{\cancel{\alpha \beta}}{1+\alpha \beta} K_{T-1}^\alpha = \frac{1}{1+\alpha \beta} K_{T-1}^\alpha 
+\end{equation}
+Plug (3.12) and (3.14) into (3.5)
+\begin{eqnarray}
+    V_2(K_{T-1}) 
+    &=& \max\limits_{\{C_{T-1}, K_{T}\}} u(C_{T-1})+ \beta \ln (K_T^\alpha) \quad \text{s.t.}~...\\
+    &=& \ln( \frac{1}{1+\alpha \beta} K_{T-1}^\alpha ) + \beta \ln[\frac{\alpha \beta}{1+\alpha \beta} K_{T-1}^\alpha ]^\alpha\\
+    &=& \alpha \beta \ln \alpha \beta - (1+ \alpha \beta) \ln (1+ \alpha \beta) + (1+ \alpha \beta) \ln K_{T-1}^\alpha
+\end{eqnarray}
+\begin{eqnarray}
+    V_3(K_{T-2}) &=& \begin{cases}
+        \max\limits_{\{C_{T-2}, K_{T-1}\}} [u(C_{T-2})+ \beta V_2(K_{T-1})]\\
+        \quad s.t. \quad C_{T-2} + K_{T-1} = K_{T-2}^\alpha
+    \end{cases}\\
+    &\vdots&
+\end{eqnarray}
+It turns out that this sequence of value functions converges to:
+\begin{equation}
+    V(K_t) = \frac{\beta}{1- \beta}[\ln (1-\alpha \beta) + \frac{\alpha \beta}{1- \alpha \beta}\ln \alpha \beta] + \frac{\alpha}{1- \alpha \beta} \ln K_t
+\end{equation}
+To check if this limit function is indeed a solution, we plug it into the the Bellman equation (of the infinite horizon model):
+\begin{equation}
+    V(K_t) = \max \bigg \{ \ln C_t + \frac{\beta}{1- \beta}[\ln (1-\alpha \beta) + \frac{\alpha \beta}{1- \alpha \beta}\ln \alpha \beta] + \frac{\alpha \beta}{1- \alpha \beta} \ln K_{t+1} \bigg \} \quad s.t. \quad C_{t} + K_{t+1} = K_{t}^\alpha
+\end{equation}
+Recall
+\begin{equation}
+    \frac{1}{C_t} = \beta V'(K_{t+1}) \Longrightarrow \frac{1}{ \beta C_t } = V'(K_{t+1}) =  \frac{\alpha}{1- \alpha \beta} \frac{1}{K_{t+1}}~~\text{(by taking the derivative of (3.20))}
+\end{equation}
+Hence
+\begin{equation}
+    \frac{C_t}{K_{t+1}} = \frac{1- \alpha \beta}{\alpha \beta}
+\end{equation}
+Using the constaint $C_t + K_{t+1} = K_t^\alpha$,
+we can get
+\begin{equation}
+    \frac{K_t^\alpha - K_{t+1}}{K_{t+1}} = \frac{1- \alpha \beta}{\alpha \beta} 
+\end{equation}
+\begin{equation}
+    \Longrightarrow \text{saving rate} = \frac{K_{t+1}}{K_t^\alpha} = \alpha \beta
+\end{equation}
+same as old.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%$$##
+\clearpage
+\section*{References}
+%\beginrefs
+%\bibentry{CW87}{\sc D.~Coppersmith} and {\sc S.~Winograd}, 
+%``Matrix multiplication via arithmetic progressions,''
+%{\it Proceedings of the 19th ACM Symposium on Theory of %Computing},
+%1987, pp.~1--6.
+%\endrefs
+
+% **** THIS ENDS THE EXAMPLES. DON'T DELETE THE FOLLOWING LINE:
+
+\end{document}
+
+
+
+
+
+
+
+

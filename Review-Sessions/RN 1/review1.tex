@@ -1,0 +1,200 @@
+% See instructions in the preamble file
+\documentclass[twoside]{article}
+\input{preamble/preamble}
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{1}{Review Session \#1}{Aliaksandr Zaretski}{Zhikun Lu}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+
+\begin{center}
+  {\huge {\bf Differential Equations}}  
+\end{center}
+\section{Basic concepts}
+\begin{definition}[ODE]
+    Let $E \in \mathbb{R}$ and $ x \in E \rightarrow \mathbb{R}$ be an unknow function. An ODE of order n is an equation of the from
+    $$F(t,x,x',x'', ... , x^{(n)}) = 0$$
+    where $F(\cdot)$ is known, real-valued.
+\end{definition}
+
+This is an implicit equation. We will work with the explicit equations:
+\[
+x^{(n)} = f(t,x,x',x'', ... , x^{(n-1)})
+\]
+$f(\cdot)$ is an known real-valued function.
+
+\begin{definition}[PDE]
+    Let $E \in \mathbb{R}^k$. An PDE of order n is an equation of the from
+    $$F(t,x, \mathrm{D} x,\mathrm{D}^2 x, ... , \mathrm{D}^{n}x) = 0$$
+    where $F(\cdot)$ is known, real-valued.
+\end{definition}
+
+\begin{example} (ODE)
+    \[
+    [x'''(t)]^4 + e^{- \xi t} x''(t) + x(t) = \tan t
+    \]
+    Here, the order is 3, the degree is 4., exogenous variable: $t$, endogenous variable: $x$.
+\end{example}
+
+\begin{theorem}
+    Let $E \in \mathbb{R}^2$, and $f: E \rightarrow \mathbb{R}$. If $f$ is continuously differentiable ($C^1$) at $(t_0, x_0) \in E$, then $\exists \epsilon > 0$ and a unique $C^1$ function $t \mapsto x(t)$, such that 
+    $$x'(t) = f(t,x(t)), \forall t \in (t_0- \epsilon, t_0 + \epsilon),$$ and also $x(t_0) = x_0$
+\end{theorem}
+
+\begin{remark} 
+    A \underline{general solution} to an ODE is a set of all solutions.
+    A \underline{particular solutions} is a solution that satisfies \underline{initial conditions}.
+\end{remark}
+
+The number of initial conditions must be equal to the order of an ODE. For example, if you solve 
+$$
+x^{(n)}(t) = f(t, x', ..., x^{(n-1)})
+$$
+provide $x(t_0),x'(t_0), ..., x^{(n-1)}(t_0).$
+
+\begin{definition}
+    An ODE is linear if it takes the form $\mathrm{L}x(t) = g(t)$, where g is a known real-valued function, L is the linear differential operator,
+    \[
+    \mathrm{L} = a_0(t) + a_1(t)\frac{\dd }{\dd t}+ ... + a_n(t)\frac{\dd^n }{\dd t^n}.
+    \]
+    Then $$\mathrm{L}x(t) = a_0(t) x(t) + a_1(t)\frac{\dd x(t)}{\dd t}+ ... + a_n(t)\frac{\dd^n x(t)}{\dd t^n} = g(t)$$
+\end{definition}
+
+\begin{definition}
+    An ODE is nonlinear if it is not linear.
+\end{definition}
+
+\section{Some common types of ODE}
+\subsection{Separable ODEs}
+\begin{equation}
+    \begin{aligned}
+        x'(t) = f(x)g(t) &\Longrightarrow \frac{\dd x}{\dd t} = f(x)g(t) \Longrightarrow
+        \frac{\dd x}{f(x)}  = g(t) \dd t\\
+        &\Longrightarrow \int \frac{\dd x}{f(x)}  = \int g(t) \dd t
+    \end{aligned}
+\end{equation}
+
+\begin{example}
+    \begin{equation}
+    \begin{aligned}
+        \frac{\dd x}{\dd t} = \frac{x}{t} \iff \int \frac{\dd x}{x} = \int \frac{ \dd t}{t}
+        \Longrightarrow 
+        \ln |x| = \ln |t| + C_1
+        &\Longrightarrow 
+        |x| = |t| e^{C_1} \equiv C_2 |t|\\
+        &\Longrightarrow x = C_3 t
+    \end{aligned}
+    \end{equation}
+    Suppose $x(1) = 5$, then $|x| = C_2 |t| \Longrightarrow x(t) = 5t$.
+\end{example}
+
+\subsection{Reducible to separable} 
+Suppose we have
+\[
+x'(t) = f(a x + b t + c)
+\]
+Let $z = a x + b t + c$, then $z'(t) = a x'(t)+b = f(z) + b$, then $\frac{\dd z}{a f(z) + b} = \dd t$,
+\[
+    \int \frac{\dd z}{a f(z) + b} = \int \dd t = t + C_1
+    \Longrightarrow \text{solve for } z(t) \Longrightarrow \text{solve for } x(t)
+\]
+
+\begin{example}
+    Let $a = -1, b=1, c= 0$,
+    \[
+    \frac{\dd x}{\dd t} = \frac{1}{t-x} + 1
+    \]
+    The left hand side seems not separable. Let $z = t-x$, so $f(z) = \frac{1}{z}+1$. Then 
+    \[
+    \int \frac{\dd z}{-\frac{1}{z}-1+1} = t + C_1
+    \iff \int z \dd z = -t - C_1 \Longrightarrow \frac{z^2}{2} = -t + C_2 \iff {z^2} = -2t + C_3
+    \]
+    \begin{equation}
+    x(t) = t \pm \sqrt{-2t + C_3} \quad \text{- general solution}
+    \end{equation}
+    With initial condition $x(0) = 5$, then $5 = \pm \sqrt{C_3} \Longrightarrow C_3 = 25$. Hence
+    \begin{equation}
+        x(t) = t + \sqrt{-2t + 25} \quad \text{- particular solution}
+    \end{equation}
+\end{example}
+
+\subsection{Homogeneous ODEs}
+Homogeneous ODEs have the following form
+\[
+\frac{\dd x}{\dd t} = f(\frac{x}{t})
+\]
+Let $z = \dfrac{x}{t} \Longrightarrow x(t) = t z(t), x'(t) = z(t) + t z'(t) $. 
+Hence, the original ODE can be transformed into
+\begin{equation}
+    z(t) + t z'(t) = f(z) \Longrightarrow \frac{\dd z}{f(z) - z} = \frac{\dd t}{t}
+\end{equation}
+\begin{equation}
+    \int \frac{\dd z}{f(z) - z} = \ln |t| + C
+\end{equation}
+
+\begin{example}
+    $\frac{\dd x}{\dd t} = \tan(\frac{x}{t}) + \frac{x}{t}$. So $ f(z) = \tan z + z $. Hence
+    \begin{equation}
+        \int \frac{\dd z}{\tan z} = \ln |t| + C \Longrightarrow \ln | \sin z| = \ln |t| + C \iff |\sin z | = C_1 |t| \iff z(t) = \arcsin (C_2 t)
+    \end{equation}
+    \begin{equation}
+        \Longrightarrow \frac{x(t)}{t} = \arcsin (C_2 t) \Longrightarrow x(t) = t \arcsin (C_2 t) \quad \text{-\quad general solution}
+    \end{equation}
+    Now suppose $x(t_0) = x_0$, ..., 
+    \begin{equation}
+        \Longrightarrow x(t) = t \arcsin (\frac{t}{t_0}\sin(\frac{x_0}{t_0}))
+    \end{equation}
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%$$##
+\clearpage
+
+\section*{References}
+%\beginrefs
+%\bibentry{CW87}{\sc D.~Coppersmith} and {\sc S.~Winograd}, 
+%``Matrix multiplication via arithmetic progressions,''
+%{\it Proceedings of the 19th ACM Symposium on Theory of %Computing},
+%1987, pp.~1--6.
+%\endrefs
+
+% **** THIS ENDS THE EXAMPLES. DON'T DELETE THE FOLLOWING LINE:
+
+\end{document}
+
+
+

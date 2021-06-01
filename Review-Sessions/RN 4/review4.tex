@@ -1,0 +1,256 @@
+% See instructions in the preamble file
+\documentclass[twoside]{article}
+
+\input{preamble/preamble}
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage{listings}
+
+\newcommand\pp{\partial}
+\newcommand\imp{$\Longrightarrow$}
+
+\begin{document}
+
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{4}{Review Session \#4}{Aliaksandr Zaretski}{Zhikun Lu}
+\footnotetext[1]{Visit \url{http://www.luzk.net/misc} for updates.}
+
+%\tableofcontents
+\section{Complex Numbers} 
+
+$\mathbb{C}$ -- the set of Complex numbers. 
+
+If $z\in \mathbb{C}$, then $Z = a+b i $, where $a$ is the real part and $b$ is the imaginary part.
+
+\underline{Polar form}: We use $|z| = \sqrt{a^2+b^2}$ -- modulus. Then $z = |z|e^{i \theta} = |z|({\cos \theta + i \sin \theta})$.
+
+If $\theta = \pi$, then $e^{i\pi} = -1$ (Euler's identity).
+
+\begin{equation}
+    \Longrightarrow
+    \begin{cases}
+            a = |z| \cos \theta \\
+            b = |z| \sin \theta     
+    \end{cases}    \Longrightarrow \frac{b}{a} = \tan \theta
+\end{equation}
+
+\begin{remark}\label{rem:a}
+    To find $\theta$ based on $a$, $b$, use the $atan2$ function:
+    \begin{equation}
+        \theta = atan2(b,a) = \begin{cases}
+            atan(\frac{b}{a}), &\text{ if }a>0\\
+            atan(\frac{b}{a})+\pi, &\text{ if }a<0 \wedge b\geq 0\\
+            atan(\frac{b}{a})- \pi, &\text{ if }a<0 \wedge b <0\\
+            \frac{\pi}{2}, &\text{ if }a=0 \wedge b>0\\
+            -\frac{\pi}{2}, &\text{ if }a=0 \wedge b<0\\
+            \text{undefined}, &\text{ if }a=0 \wedge b=0   
+        \end{cases}
+    \end{equation}
+\end{remark}
+
+\section{Solutions to the characteristic equation [CE]}
+Suppose $\lambda \in \mathbb{C}$ is a solution to [CE]. Then $\lambda = a + b i$. Then $e^{\lambda t}$ is a solution to [H].
+\begin{equation}
+    e^{\lambda t} = e^{(a+bi)t} = e^{at} e^{ibt} = e^{a t}(\cos (bt) + i \sin (bt))
+\end{equation}
+Also, $\bar{\lambda} = a - bi$ is a solution to [CE].
+\begin{equation}
+    e^{\bar{\lambda}} = e^{(a-bi)t} =  e^{a t}(\cos (-bt) + i \sin (-bt)) = e^{a t}(\cos (bt) - i \sin (bt))
+\end{equation}
+Consider $ (e^{\lambda t}, e^{\bar{\lambda} t}) $ -- these are two independent solutions to [H]. Their linear combination
+\begin{eqnarray}
+    C_1 e^{\lambda t} + C_2 e^{\bar{\lambda} t} &=& e^{at}[(C_1 + C_2) \cos (bt) + i (C_1 - C_2) \sin (bt)]\\
+    &=& e^{at}[C_3 \cos (bt) + C_4 \sin (bt)], \quad C_3, C_4 \in \mathbb{C}
+\end{eqnarray}
+
+\section{Related solutions to [CE]}
+Suppose $\mu(\lambda) = m > 1$. Then the independent solutions associated to $\lambda$ are $\{ e^{\lambda t}, t e^{\lambda t}, ..., t^{m-1} e^{\lambda t} \}$.
+
+\underline{Intuition from 2nd order case}
+$$x'' + a_1 x' + a_0 x = 0 \qquad \text{ [H] }$$
+$$\lambda^2 + a_1 \lambda + a_0 = 0 \qquad \text{ [CE] }$$
+$\mathcal{D} = a_1^2 - 4 a_0$
+\begin{equation}
+    \begin{cases}
+        \mathcal{D} > 0 &\Longrightarrow \text{ distinct real roots }\\
+        \mathcal{D} = 0 &\Longrightarrow \text{ equal real roots }\\
+        \mathcal{D} < 0 &\Longrightarrow \text{ complex conjugates }
+    \end{cases}
+\end{equation}
+Suppose $\mathcal{D} = 0$. Then  $\lambda_{1,2} = \frac{-a_1}{2}$. We have solutions $e^{\lambda t}$, $t e^{\lambda t}$.
+
+Consider $x(t) = t e^{\lambda t}$, 
+\begin{equation}
+    x'(t) = e^{\lambda t} + \lambda t e^{\lambda t}
+\end{equation}
+\begin{equation}
+    x''(t) = 2 \lambda e^{\lambda t} + \lambda^2 t e^{\lambda t}
+\end{equation}
+Substitute into [H]
+\begin{eqnarray}
+    2\lambda e^{\lambda t} + \lambda^2 t e^{\lambda t} + a_1 e^{\lambda t} + a_1 \lambda t e^{\lambda t} + a_0 t e^{\lambda t} = 0\\
+    2\lambda  + \lambda^2 t  + a_1  + a_1 \lambda t  + a_0 t = 0\\
+    2(\frac{-a_1}{2})  + (\frac{-a_1}{2})^2 t  + a_1  + a_1 (\frac{-a_1}{2}) t  + a_0 t = 0\\
+     (a_1^2 - 4 a_0)t = 0
+\end{eqnarray}
+
+\underline{General solution to [H]}
+
+Consider, for example, the following:
+$$x^{(9)} + a_8 x^{(8)} +...+ a_1 x'+ a_0 = 0 \qquad \text{ [H] }$$
+$$\lambda^9 + a_8 \lambda^8 + ... + a_1 \lambda + a_0 = 0 \qquad \text{ [CE] }$$
+Let $\lambda_1, ..., \lambda_9$ be the roots of [CE]. Suppose $\lambda_1, \lambda_2, ...,\lambda_5 \in \mathbb{R}$, $\lambda_6, ..., \lambda_9 \in \mathbb{C}$. Suppose 
+\begin{equation}
+    \begin{cases}
+        \lambda_1 \neq \lambda_2 \neq \lambda_3\\
+        \lambda_3 = \lambda_4 = \lambda_5\\
+        \lambda_6 = \lambda_8\\
+        \lambda_7 = \lambda_9
+    \end{cases}
+\end{equation}
+Let $\lambda_6 = a+ b i$. Then $\lambda_7 = a-bi, \lambda_8 = a+bi, \lambda_9 = a-bi$.
+
+Then the general solution to [H] is 
+\begin{equation}
+    x_n(t) = C_1 e^{\lambda_1 t} + C_2 e^{\lambda_2 t} + C_3 e^{\lambda_3 t} + C_4 e^{\lambda_4 t}+ C_5 e^{\lambda_5 t} + e^{at}(C_6 \cos(bt)+ C_7 \sin(bt)) + t e^{at}(C_8 \cos(bt)+ C_9 \sin(bt))
+\end{equation}
+
+\underline{Particular solution to [C]}
+\begin{equation}
+    Lx(t) = g(t) \qquad \text{[C]}
+\end{equation}
+
+\begin{table}[htbp]
+\begin{tabular}{ll}
+$g(t)$ & Guess for $x_p(t)$ \\ \hline
+$C$ -- constant  & $D$ -- constant \\
+$e^{\lambda t}$ & $D e^{\lambda t}$   \\
+$t^\Gamma$ & $b_0+b_1 t + ... + b_\Gamma t^\Gamma$ \\
+$\sin(bt)$ & $D\sin(bt)+E\cos(bt)$ \\
+$\cos(bt)$ & $D\sin(bt)+E\cos(bt)$ \\
+$\lambda^t$ & $D \lambda^t$ \\
+sum or product & sum or product \\
+ of the above &  of the above  
+\end{tabular}
+\end{table}
+
+\begin{remark}
+    If the guess for $x_p(t)$ solves [H], then multiply the guess by $t$.
+\end{remark}
+
+\begin{example}
+    \begin{equation}
+        \begin{cases}
+            x'' + 2x' +2x = t^2, &\text{ [C] }\\
+            x'' + 2x' +2x = 0  , &\text{ [H] }\\
+            \lambda^2 + 2 \lambda +2 = 0  , &\text{ [CE] }
+        \end{cases}
+    \end{equation}
+    $\mathcal{D} = 4 - 8 < 0 $, $\lambda_{1,2} = -1 \pm i
+    $. So $a = -1, b=1$
+    \begin{equation}
+        x_h(t) = e^{-t} (C_1 \cos(t) + C_2 \sin(t))  \text{ -- general solution to [H]}
+    \end{equation}
+    Try
+    \begin{equation}
+        x_p(t) = b_0 + b_1 t + b_2 t^2 \Longrightarrow \begin{cases}
+            x_p' = b_1 + 2b_2 t\\
+            x_p'' = 2 b_2
+        \end{cases}
+    \end{equation}
+    Substitute into [C]:\begin{equation}
+        (2 b_2) + 2 ( b_1 + 2b_2 t ) + 2 (b_0 + b_1 t + b_2 t^2 ) = t^2
+    \end{equation}
+    We need: $\begin{cases}
+        2 b_2 = 1 &\Longrightarrow b_2 = \frac{1}{2}\\
+        4 b_2 + 2 b_1 = 0 &\Longrightarrow b_1 = -1 \\
+        2 b_2 + 2 b_1 + 2 b_0= 0 &\Longrightarrow b_0 = \frac{1}{2}
+    \end{cases}$
+    $$\Longrightarrow x_p(t) = \frac{1}{2} - t + \frac{1}{2}t^2 \qquad \text{-- particular solution tp [C]}$$
+    Then, the general solution to [C] is \begin{equation}
+        x(t) = e^{-t} (C_1 \cos(t) + C_2 \sin(t)) + \frac{1}{2} - t + \frac{1}{2}t^2
+    \end{equation}
+    Now suppose we have initial conditions $\begin{cases}
+        x(0) = \frac{1}{2}\\
+        x'(0) = 0
+    \end{cases}$
+
+    Notice that $x'(t) = -e^{-t} (C_1 \cos(t) + C_2 \sin(t)) + e^{-t} ( - C_1 \sin(t) + C_2 \cos(t))- 1 + t$
+
+    \begin{equation}
+    \begin{cases}
+        x(0) = C_1 + \frac{1}{2} = \frac{1}{2} &\Longrightarrow C_1 = 0\\
+        x'(0) = -C_1 + C_2 -1 =0 &\Longrightarrow C_2 = 1
+    \end{cases}
+    \end{equation}
+    Then the particular solution that satisfies $\begin{cases}
+        x(0) = \frac{1}{2}\\
+        x'(0) = 0
+    \end{cases}$ is \begin{equation}
+        x_p(t) = e^{-t}\sin(t) + \frac{1}{2} - t + \frac{1}{2} t^2
+    \end{equation}
+
+
+\end{example}
+
+
+
+
+
+
+
+
+
+
+%=======================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%=======================================
+
+%$$##
+\clearpage
+\section*{References}
+%\beginrefs
+%\bibentry{CW87}{\sc D.~Coppersmith} and {\sc S.~Winograd}, 
+%``Matrix multiplication via arithmetic progressions,''
+%{\it Proceedings of the 19th ACM Symposium on Theory of %Computing},
+%1987, pp.~1--6.
+%\endrefs
+
+% **** THIS ENDS THE EXAMPLES. DON'T DELETE THE FOLLOWING LINE:
+
+\end{document}
+
+
+
+
+

@@ -1,0 +1,385 @@
+\documentclass[twoside]{article}
+
+\input{preamble/preamble}
+\usepackage{hyperref}
+\usepackage{cancel}
+\newcommand\pp{\partial}
+\newcommand\pd{\partial}
+\newcommand\imp{$\Longrightarrow$}
+\newcommand\lb{\left (}
+\newcommand\rb{\right )}
+\newcommand\lsb{\left [}
+\newcommand\rsb{\right ]}
+\newcommand\lcb{\left \{}
+\newcommand\rcb{\right \}}
+
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{6}{More about Difference Equations}{Prof. Daniel Levy}{Zhikun Lu}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+\footnotetext[1]{Visit \url{http://www.luzk.net/misc} for updates.}
+
+\hfill Date: September 5, 2018
+
+\section{First Order Linear Difference Equations}
+\begin{equation}
+    \underbrace{y_{t}}_{Endog.} = \lambda y_{t-1} + b \underbrace{x_t}_{Exog.} + a, \qquad a, b, \lambda = \text{ parameters, } \lambda \neq 1
+\end{equation}
+\underline{Note}:
+
+$\lambda = 1$ unit root, non-stationary, random walk
+
+\underline{Sargent 1979, CH.9}
+
+\begin{equation}
+    y_{y} - \lambda y_{t-1} = b x_{t} + a
+\end{equation}
+\begin{equation}
+    (1- \lambda L)y_{t} = b x_{t} + a
+\end{equation}
+\begin{equation}
+    y_{t} = \frac{1}{1 - \lambda L}(b x_{t}+a) + {c \lambda^{t}}
+\end{equation}
+where ${c \lambda^{t}}$ is the ``summation constant'', similar to the constant in indefinite integral. We can check that $$(1- \lambda L){c \lambda^{t}} = c \lambda^{t} - \lambda L (c \lambda^{t}) = c \lambda^{t} - \lambda c \lambda^{t-1} = 0$$
+
+\underline{Note}
+\begin{eqnarray}
+    L(x_{t} \pm y_{t}) = x_{t-1} \pm y_{t-1}\\
+    L(a x_{t}) = a L x_{t} =  a x_{t-1}\\
+    y_t = (\frac{1}{1- \lambda L})b x_{t} + (\frac{1}{1- \lambda L}) a + c \lambda^t
+\end{eqnarray}
+
+\underline{Assuptions}
+
+$|\lambda| < 1 \Longrightarrow La = a$.
+
+Then
+\begin{equation}
+   ( \frac{1}{1- \lambda L})a = (\frac{1}{1- \lambda})a
+\end{equation}
+This is because
+\begin{equation}
+    ( \frac{1}{1- \lambda L})a = (\sum_{i=0}^{\infty} \lambda^{i}L^{i})a = \sum_{i=0}^{\infty} (\lambda^{i}L^{i}a) = \sum_{i=0}^{\infty} (\lambda^{i}a) = a \sum_{i=0}^{\infty} \lambda^{i} = a(\frac{1}{1- \lambda})
+\end{equation}
+Thus, 
+\begin{equation}
+\begin{aligned}
+    y_t &= (\frac{1}{1- \lambda L})b x_{t} + (\frac{1}{1- \lambda L}) a + c \lambda^t\\
+        &= b \sum_{i=0}^{\infty} \lambda^i x_{t-i} + \frac{a}{1- \lambda} + c \lambda^t
+\end{aligned}
+\end{equation}
+
+\underline{Recall}
+
+If $|\lambda|<1$, then $(\frac{1}{1- \lambda L}) x_{t} = \sum_{i=0}^{\infty} \lambda^i x_{t-i}$
+
+If $|\lambda|>1$, then $(\frac{1}{1- \lambda L}) x_{t} = -\sum_{i=1}^{\infty} {(\frac{1}{\lambda})}^i x_{t+i}$
+
+\underline{Note}: If $|\lambda| > 1$, then we would use forward-looking solution.
+
+\begin{example} Cagan (1956)
+\begin{equation}
+    \begin{cases}
+        m_t &= \ln M_{t}\\
+        p_{t} &= \ln P_{t}\\
+        p^e_{t+1} &= \ln P^{e}_{t+1}  
+    \end{cases}
+\end{equation}
+\underline{Money Market}: Money demand
+\begin{equation}
+    \underbrace{m_t - p_t}_{\ln (\frac{M_t}{P_t})} = \alpha (\underbrace{p^e_{t+1} - p_{t}}_{\text{expeced inflation}}), \qquad \alpha <0
+\end{equation}
+this is a(n) simplification/approximation under hyperinflation:
+\begin{equation}
+    (\frac{M}{P})^{d} = \frac{M}{P}(i, y) = \frac{M}{P}(r + {\pi^{e}}, y) 
+\end{equation}
+When inflation is high, $r$ and $y$ can be treated as fixed.
+
+\underline{Assumption}
+$$y = \bar{y}, r = \bar{r}$$
+\begin{equation}
+    P^{e}_{t+1} = (1-\gamma) P_{t} + \gamma P_{t-1} \Longrightarrow \pi_{t+1}^{e} = \Gamma \pi_{t}, \quad \Gamma < 0
+\end{equation}
+which is an example of \underline{extrapolative} expectation.
+\begin{equation}
+    p_{t+1}^{e} = (1+ \Gamma)p_{t} - \Gamma p_{t-1}
+\end{equation}
+\begin{equation}
+    m_{t} - p_{t} = \alpha \Gamma (p_{t}-p_{t-1})
+\end{equation}
+\begin{equation}
+    \Longrightarrow p_{t} - \underbrace{(\frac{a \Gamma}{1 + a \Gamma})}_{\lambda} p_{t-1} = \frac{1}{1 + a \Gamma} m_{t}
+\end{equation}
+\begin{equation}
+    p_{t} - \lambda p_{t-1} = \frac{1}{1 + a \Gamma} m_{t}
+\end{equation}
+\begin{equation}
+    p_{t} = \frac{1}{1 + a \Gamma} (\frac{1}{1 - \lambda L})m_{t} + c \lambda^{t}
+\end{equation}
+Since $|\lambda| = |\frac{\alpha \Gamma}{1+ \alpha \Gamma} | < 1$, \imp
+\begin{equation}
+    p_{t} = \frac{1}{1 + a \Gamma} \sum_{i=0}^{\infty} \lambda^{i} m_{t-i} + c \lambda^{t} = \frac{1}{1 + a \Gamma} \sum_{i=0}^{\infty} (\frac{\alpha \Gamma}{1+ \alpha \Gamma})^{i} m_{t-i} + c (\frac{\alpha \Gamma}{1+ \alpha \Gamma})^{t}
+\end{equation}
+\end{example}
+
+\begin{example}
+\underline{Perfect forsight}
+    \begin{equation}
+        p^{e}_{t+1} - p_{t} = p_{t+1} - p_{t}
+    \end{equation}
+    \begin{equation}
+        \pi^{e}_{t+1} = \pi_{t+1}
+    \end{equation}
+    Then money demand is 
+    \begin{equation}
+        m_{t} - p_{t} = \alpha (p_{t+1} - p_{t})
+    \end{equation}
+    \begin{equation}
+        \Longrightarrow p_{t+1} - \frac{\alpha-1}{\alpha}p_{t} = \frac{m_{t}}{\alpha}
+    \end{equation}
+    \begin{equation}
+        \Longrightarrow (1 - \lambda L) p_{t+1} = \frac{m_{t}}{\alpha}
+    \end{equation}
+    Here, $|\lambda| = | \frac{\alpha-1}{\alpha}| > 1$. Hence use backward-looking solution:
+    \begin{equation}
+        \begin{aligned}
+            p_{t+1} 
+            &= - \frac{1}{\alpha} \left ( \frac{1}{1 - \lambda L} \right ) m_{t} + c \lambda^{t}\\
+            &= - \frac{1}{\alpha} \sum_{i=1}^{\infty} \left ( \frac{1}{\lambda} \right )^i m_{t+i} + c \lambda^{t}\\
+            &= - \frac{1}{\alpha} \sum_{i=1}^{\infty} \left ( \frac{1}{(\frac{\alpha-1}{\alpha})} \right )^i m_{t+i} + c (\frac{\alpha-1}{\alpha})^{t}\\
+            &= \frac{1- \alpha}{\alpha^2} \sum_{i=1}^{\infty} \left ( \frac{\alpha}{\alpha-1} \right )^{i+1} m_{t+i} + c (\frac{\alpha-1}{\alpha})^{t}\\
+            p_{t} &= \frac{1- \alpha}{\alpha^2} \sum_{i=1}^{\infty} \left ( \frac{\alpha}{\alpha-1} \right )^{i+1} m_{t+i-1} + c (\frac{\alpha-1}{\alpha})^{t-1}
+        \end{aligned}
+    \end{equation}
+\end{example}
+
+\section{Dynamic Discrete Time Infinite Horizon Model (Ramsey)}
+\begin{equation}
+    \max \quad \sum_{t=1}^{\infty} \beta^{t} u(c_{t}), \qquad 1 > \beta > 0
+\end{equation}
+\begin{equation}
+    \text{s.t.} \quad c_t + B_{t} = (1+ \rho_{t-1}) B_{t-1} + y_{t}
+\end{equation}
+\begin{equation}
+    \mathcal{L} = \sum_{t=1}^{\infty} \beta^{t} u(c_{t}) -  \sum_{t=1}^{\infty} \lambda_{t} [(1+ \rho_{t-1}) B_{t-1} + y_{t} - c_t - B_{t}]
+\end{equation}
+\underline{Choice}: $\{c_{t}, B_{t}\}_{t=1}^{\infty}$
+
+\underline{FONC}:
+\begin{eqnarray}
+    &[c_{t}]& \qquad \beta^{t} u'(c_{t}) - \lambda_{t} = 0\\
+    &[B_t]& \qquad -\lambda_{t} + \lambda_{t+1}(1+\rho_{t}) = 0
+\end{eqnarray}
+\imp
+\begin{equation}
+    1 + \rho_{t} = \frac{u'(c_{t})}{\beta u'(c_{t+1})}
+\end{equation}
+which says ``objective rate of substitution'' = ``subjective rate of substitution''.
+
+\underline{Assumption}: $\rho_{t} = \rho, ~ \forall t$ 
+\begin{equation}
+    (1 - (1+ \rho)L)B_{t} = y_{t} - c_{t}
+\end{equation}
+\begin{eqnarray}
+    B_{t} 
+    &=& \frac{1}{1 - (1+ \rho)L}(y_{t} - c_{t}) + d (1 + \rho)^{t} \\
+    &=& - \sum_{s=1}^{\infty} (\frac{1}{1+\rho})^{s}(y_{t+s}-c_{t+s}) + d (1 + \rho)^{t}\\
+    &=& - \sum_{s=1}^{\infty} (\frac{1}{1+\rho})^{s}(y_{t+s}-c_{t+s}) \qquad (d = 0 \text{ because of NPGC})\\
+    \sum_{s=1}^{\infty} (\frac{1}{1+\rho})^{s} c_{t+s} &=& B_{t} + \sum_{s=1}^{\infty} (\frac{1}{1+\rho})^{s} y_{t+s} 
+\end{eqnarray}
+which is the life-time budget constaint.
+
+\underline{NPGC}:
+\begin{equation}
+    \lim_{t \to \infty} d(1+\rho)^{t} = 0 \Longrightarrow d = 0
+\end{equation}
+
+\underline{Assumption} $y_{t} = y, ~u(c) = \ln(c)$ \imp
+\begin{equation}
+    1 + \rho = \frac{1}{\beta }\frac{c_{t+1}}{c_{t} } \iff (1 + \rho)\beta c_{t} = c_{t+1}
+\end{equation}
+\begin{eqnarray}
+    c_{t+1} &=& (1 + \rho)\beta c_{t}\\
+    c_{t+2} &=& ((1 + \rho)\beta)^2 c_{t}\\
+    c_{t+3} &=& ((1 + \rho)\beta)^3 c_{t}\\
+    &\vdots&\\
+    c_{t+s} &=& ((1 + \rho)\beta)^s c_{t}
+\end{eqnarray}
+\imp
+\begin{equation}
+    B_{t} + \sum_{s=1}^{\infty} (\frac{1}{1+\rho})^{s}y = 
+     \sum_{s=1}^{\infty} (\frac{1}{1+\rho})^{s} (1 + \rho)^{s}\beta^{s} c_{t}
+\end{equation}
+\begin{equation}
+    B_{t} + y \sum_{s=1}^{\infty} (\frac{1}{1+\rho})^{s} = 
+     c_{t} \sum_{s=1}^{\infty} \cancel{(\frac{1}{1+\rho})^{s} (1 + \rho)^{s}}\beta^{s} 
+\end{equation}
+\begin{equation}
+    B_{t} + \frac{1}{\rho}y = \frac{\beta}{1-\beta} c_{t}
+\end{equation}
+%Assume $\beta = \rho$, then we have
+\begin{equation}
+    c_t = \frac{1- \beta}{\beta \rho}(y + \rho B_{t})
+\end{equation}
+
+\section{Expectations}
+How to get information about expectation?
+\begin{enumerate}
+    \item Survey
+    \item Observe behaviour
+    \item Assume some mechanism
+    \begin{enumerate}
+        \item Static expectation $p^{e}_{t+1} = p_{t}$\\
+        Example: The cobweb model
+        \item Extrapolative expectations\\
+        Example:
+        \begin{equation}
+            p^{e}_{t+1} = \Gamma p_{t} + (1- \Gamma)p_{t-1} = \Gamma (p_{t} - p_{t-1}) + p_{t-1}
+        \end{equation}
+        Example:
+        \begin{equation}
+        \begin{aligned}
+            C_{t+1} &= \alpha + \beta y^{e}_{t+1}\\
+            &= \alpha + \beta \Gamma y_{t} + \beta (1- \Gamma) y_{t-1} + \epsilon_{t}
+        \end{aligned}
+        \end{equation}
+        \item Adaptive expectations
+    \end{enumerate}
+\end{enumerate}
+
+\underline{Adaptive Expectations}
+\begin{equation}
+    p^{e}_{t+1} = p^{e}_{t} + \theta (\underbrace{p_{t} - p^{e}_{t}}_{\text{forecast error}}), \qquad 0 < \theta < 1
+\end{equation}
+\begin{equation}
+    p^{e}_{t+1} = \theta \sum_{s=0}^{\infty}(1- \theta)^{s} p_{t-s} + c (1 - \theta)^{t}
+\end{equation}
+
+\underline{Rational Expectations}
+\begin{itemize}
+    \item [1)] $P^{e}_{t+1} = \E [P_{t+1} \mid \Omega_{t}]$
+    \item [2)] $P^{e}_{t+1} - P_{t+1} = \epsilon_{t+1}$, where $\E (\epsilon_{t+1}) = 0$, $\text{cov}(\epsilon_{t}, \epsilon_{t \pm 1})$.
+\end{itemize}
+\underline{Perfect Forsight} is an extreme case of RE  where $\epsilon_{t+1} = 0 ~ \forall t$.
+
+\section{Stochastic Difference Equation}
+\begin{equation}
+    y_{t} = a \underbrace{\E [y_{t+1} | I_{t}]}_{\E_{t} y_{t+1}} + c x_{t}
+\end{equation}
+\begin{example}
+    \begin{equation}
+        p_{t} = (\frac{\alpha}{1+ \alpha}) \E [p_{t+1}| I_{t}]+     (\frac{1}{1+ \alpha})m_{t}
+    \end{equation}
+\end{example}
+
+\underline{Law of Iterated Expectations}
+\begin{equation}
+    \E \lsb \E \lsb X | I_{t+1} \rsb | I_t \rsb = \E \lsb X| I_{t} \rsb
+\end{equation}
+
+\begin{eqnarray}
+    y_{t} &=& a \E_{t}y_{t+1} + c x_{t}\\
+    y_{t+1} &=& a \E_{t+1}y_{t+2} + c x_{t+1}\\
+    \E_{t} y_{t+1} &=& a \E_{t} \E_{t+1}y_{t+2} + c \E_{t} x_{t+1} = a \E_{t} y_{t+2} + c \E_{t} x_{t+1} \\
+    \Longrightarrow 
+    y_{t} &=& a^{2} \E_{t} y_{t+2} + a c \E_{t} x_{t+1} + c x_{t}\\
+    y_{t+2} &=& a \E_{t+2}y_{t+3} + c x_{t+2}\\
+    \Longrightarrow 
+    \E_{t} y_{t+2} &=& a \E_{t}y_{t+3} + c \E_{t} x_{t+2}\\
+    \Longrightarrow 
+    y_{t} &=& a^{3} \E_{t} y_{t+3} + a^2 c \E_{t} x_{t+2} + a c \E_{t} x_{t+1} + c x_{t}\\
+    &\vdots& \notag\\
+    y_{t} &=& c \sum_{i=0}^{T} a^{i}\E_{t}x_{t+i} + a^{T+1} \E_{t} y_{t+T+1}
+\end{eqnarray}
+Let $T \to \infty$ and assume that \begin{equation}
+    \lim_{T \to \infty} [a^{T+1} \E_{t}y_{t+T+1}] = 0
+\end{equation}
+i.e. we are ruling out  bubble solution.
+
+Then we get the fundamental solution:
+\begin{equation}
+    y_{t} = c \sum_{i=0}^{\infty} a^{i} \E_{t} x_{t+i}
+\end{equation}
+
+\section{Stochastic Dynamic Discrete Time Infinite Horizon Model}
+\begin{equation}
+    \max \quad \E \lsb \sum_{t=1}^{\infty} \beta^{t} u(c_{t})  \rsb 
+\end{equation}
+\begin{equation}
+    \text{s.t.} \quad c_t + B_{t} = (1+ \rho_{t-1}) B_{t-1} + y_{t}
+\end{equation}
+\underline{Random Lagrangian Method} (Kushner (1965))
+
+\underline{FONC}
+\begin{eqnarray}
+    \E_{t} [ \beta^{t} u'(c_{t}) - \lambda_{t}] = 0\\
+    \E_{t} [ - \lambda_{t} + \lambda_{t+1} (1+ \rho_{t})] = 0
+\end{eqnarray}
+
+\underline{Note}: At time t, variables dated $t$ and earlier are known and hence they are not R.V.'s (random variables), i.e.
+\begin{equation}
+    \E_{t} x_{t} = \E [x_{t} | I_{t} ] = x_{t}
+\end{equation}
+\imp
+\begin{eqnarray}
+    \beta^{t} u'(c_{t}) - \lambda_{t} = 0\\
+    -\lambda_{t} + (1 + \rho_{t}) \E_{t} \lambda_{t+1} = 0
+\end{eqnarray}
+\imp    
+\begin{equation}
+    u'(c_{t}) = (1 + \rho_{t}) \beta \E_{t} u'(c_{t+1})
+\end{equation}
+\begin{equation}
+    \E_{t} u'(c_{t+1}) = \frac{1}{(1 + \rho_{t}) \beta} u'(c_{t})
+\end{equation}
+\begin{equation}
+    u'(c_{t+1}) = \frac{1}{(1 + \rho_{t}) \beta} u'(c_{t}) + \epsilon_{t+1}
+\end{equation}
+with $\E_{t} \epsilon_{t+1} = 0$. Hence it's almost an AR(1) process.
+
+\underline{Claim}: If $\E_t (x_{t+1}) = x_{t}$, then $x_{t+1} = x_{t} + \epsilon_{t+1}$, $E_{t} \epsilon_{t+1} = 0$.
+
+\underline{Comment}: This is also a regression equation/model that can be used for estimation, taken to data for test directly. If $u(c) = \ln c$, then \begin{equation}
+    \frac{1}{c_{t+1}} = \frac{1}{(1 + \rho_{t}) \beta}  \frac{1}{c_{t}} + \epsilon_{t+1}
+\end{equation}
+which is a regression equation with time-varying coefficient (Kalman filter). (F. Mishikin 1986, NBER-U.C. Press)
+
+\underline{Assumption}: $\rho_{t} = \rho$ and $\beta = \frac{1}{1+ \rho}$
+
+Then 
+\begin{equation}
+    u'(c_{t+1}) = u'(c_{t}) + \epsilon_{t+1}
+\end{equation}
+MU of consumption is a random walk.
+
+With quadratic utility function, $\text{MU} = \alpha - \beta c$, Hall (1978) showed that
+\begin{equation}
+    c_{t+1} = c_{t} + \epsilon_{t+1}.
+\end{equation}
+
+
+
+%$$##
+\clearpage
+\section*{References}
+\beginrefs
+%\bibentry{CW87}{\sc D.~Coppersmith} and {\sc S.~Winograd}, 
+%``Matrix multiplication via arithmetic progressions,''
+%{\it Proceedings of the 19th ACM Symposium on Theory of %Computing},
+%1987, pp.~1--6.
+\bibentry{Sargent 1979}{\sc Tom Sargent}, 
+``Chapter 9''
+{\it Macroeconomic Theory},
+1979
+\endrefs
+
+% **** THIS ENDS THE EXAMPLES. DON'T DELETE THE FOLLOWING LINE:
+
+\end{document}
+
+
+
+
+

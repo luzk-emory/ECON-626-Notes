@@ -1,0 +1,228 @@
+% See instructions in the preamble file
+\documentclass[twoside]{article}
+
+\input{preamble/preamble}
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage{listings}
+\newcommand\pp{\partial}
+\newcommand\pd{\partial}
+\newcommand\imp{$\Longrightarrow$}
+\newcommand\lb{\left (}
+\newcommand\rb{\right )}
+\newcommand\lsb{\left [}
+\newcommand\rsb{\right ]}
+\newcommand\lcb{\left \{}
+\newcommand\rcb{\right \}}
+
+\begin{document}
+
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{7}{Review Session \#7}{Aliaksandr Zaretski}{Zhikun Lu}
+\footnotetext[1]{Visit \url{http://www.luzk.net/misc} for updates.}
+
+\hfill Date: Date: September 6, 2018
+
+%\tableofcontents
+\section{Systems of Linear ODE with Constant coeffiicients}
+\begin{theorem}
+    \begin{equation}
+    \begin{cases}
+        \dot{x}(t) = A(t)x(t)+ B(t)u(t) \qquad [C]\\
+        \dot{x}(t) = A(t)x(t)  \qquad [H]
+    \end{cases}
+    \end{equation}
+    Then $e^{At}$ is a fundamental matrix of [H]. $e^{A(t-t_0)}$ is a state transtition matrix.
+\end{theorem}
+\begin{proof}
+    $e^{At}$ is invertible, $(e^{At})^{-1} = e^{-At}$. And $\frac{\dd}{\dd t}(e^{At}) = A e^{At}$. By Theorem 6.9, we know $e^{A(t-t_0)} = e^{At} (e^{At_{0}})^{-1}$ is a state transtition matrix.
+\end{proof}
+
+\begin{theorem}
+    General solution to [H] is $x(t) = e^{A(t-t_{0})}x(t_{0})  $.
+
+    General solution to [C] is $x(t) = e^{A(t-t_{0})}x(t_{0}) + \int_{t_{0}}^{t} e^{A(t-s)}B(s)u(s) \dd s$.
+\end{theorem}
+
+\textbf{Exercise}: Find the general solution of \[
+    \begin{bmatrix}
+        \dot{x}_{1}(t)\\
+        \dot{x}_{2}(t)
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        a_{1} & 0\\
+        0 & a_{2}
+    \end{bmatrix}
+    \begin{bmatrix}
+        {x}_{1}(t)\\
+        {x}_{2}(t)
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        1 & 0\\
+        0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        u_{1}(t)\\
+        u_{2}(t)
+    \end{bmatrix}
+\]
+
+\section{Stability of Systems of ODE}
+\begin{theorem}
+    Consider a linear system $\dot{x}(t) = A x (t)$
+    \begin{enumerate}
+        \item [(a)] 0 is a unique equilibrium point $\iff$ $\det A \neq 0$
+        \item [(b)] 0 is a stable equilibrium point $\iff$ all eigenvalues of $A$ have negative real parts.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    (a) Suppose $Ax = 0$ 
+
+    ``\imp'' part: $Ax \neq 0$ for any $x \neq 0$ \imp $\det(A) \neq 0$. Contradiction!
+
+    ``$\Longleftarrow$'' part: $Ax = 0$ \imp $x=0$ is the unique equilibrium point.
+
+    (b) Suppose $A$ is diagonalizable [if not, a similar argument can be developed using Jordan decomposition]. So $A = P D P^{-1}$ \imp $\dot{x} = P D P^{-1} x $ \imp $\underbrace{P^{-1} \dot{x}}_{y} = D \underbrace{ P^{-1} x}_{\dot{y}}$ $\iff$ $\dot{y} = D y$.
+
+    Note that $\lim_{t \to \infty} x(t) = 0 \iff \lim_{t \to \infty} y(t) = 0 $.
+
+    Now look at $\dot{y} = D y$:
+    $$\dot{y} = \begin{bmatrix}
+        \dot{y}_{1}\\
+        \vdots\\
+        \dot{y}_{n}
+    \end{bmatrix} = 
+    \begin{bmatrix}
+        d_{1} & &0 \\
+            & \ddots &\\
+        0&& d_{n}
+    \end{bmatrix}
+    \begin{bmatrix}
+        y_{1}\\
+        \vdots\\
+        y_{n}
+    \end{bmatrix}
+    \iff 
+    \dot{y}_{j} = d_{j} y_{j}, ~ j = 1, ..., n.$$
+    $y_{j}(t) = c_{j} e^{\alpha_{t} t} = c_{j} e^{(a_{t}+ i b_{j}) t}.$
+    Then $\lim_t y_{j}(t) = 0 \iff a_{j} < 0 
+    $. Hence the conclusion follows.
+\end{proof}
+
+\begin{theorem}
+    Consider a non-linear system $\dot{x} = f(x), ~ f : \mathbb{Q}^{n} \to \mathbb{R}^{n}$. Suppose $f$ is $C^{1}$ and $\tilde{x}$ is an equilibrium point. Then
+    \begin{itemize}
+        \item [(a)] all eigenvalues of $Df(\tilde{x})$ havenegative real parts \imp $\tilde{x}$ is locally asymptotically stable.
+        \item [(b)] at least one eigenvalue of  $Df(\tilde{x})$ has positive real part \imp $\tilde{x}$ is unstable.
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    (For a rigorous argument, see Hartman-Grobman theorem.)
+
+    By Taylor theorem,
+    \[
+    \underbrace{f(x)}_{\dot{x}} = \underbrace{f(\tilde{x})}_{=0}+ Df(\tilde{x})(x-\tilde{x}) + \Gamma (x - \tilde{x})
+    \]
+    and $\lim_{x\to \tilde{x}} \frac{\Gamma (x - \tilde{x})}{||x - \tilde{x}||} = 0$.
+    \[
+    \Longrightarrow \dot{x} = D f (\tilde{x}) (x- \tilde{x}) + \Gamma (x-\tilde{x})
+    \]
+    \[
+    \iff \frac{\dd}{\dd t}(x - \tilde{x}) = Df(\tilde{x})\underbrace{(x-\tilde{x})}_{y} + \Gamma (x- \tilde{x})
+    \]
+    \[
+    \Longrightarrow \dot{y} = D f(\tilde{x}) y + \Gamma (y)
+    \]
+    Then when $x$ is close to $\tilde{x}$, or $y $ is close to $0$, the stability of the original system is determined by the stability of its linearized version: $\dot{y} = Df(\tilde{x})y$. The conclusion follows from Theorem 7.3.
+\end{proof}
+
+\subsection*{Phase Diagrams}
+\begin{equation}
+    \begin{cases}
+        \dot{x_{1}} = f_{1}(x_{1}, x_{2})\\
+        \dot{x_{2}} = f_{2}(x_{1}, x_{2})
+    \end{cases}
+\end{equation}
+\begin{example}
+    \begin{equation}
+    \begin{cases}
+        \dot{x_{1}} = x_{2}\\
+        \dot{x_{2}} = x_{1}
+    \end{cases} \iff
+    \begin{bmatrix}
+        \dot{x_{1}} \\
+        \dot{x_{2}} 
+    \end{bmatrix} = 
+    \begin{bmatrix}
+        0&1\\
+        1&0
+    \end{bmatrix}
+    \begin{bmatrix}
+        \dot{x_{1}} \\
+        \dot{x_{2}} 
+    \end{bmatrix}
+\end{equation}
+\begin{center}
+    \texttt{[Insert a phase diagram here]}
+\end{center}
+\end{example}
+\begin{remark}
+    Saddle path correspondences to an eigenvector with eigenvalue that has negative real part.
+\end{remark}
+
+\begin{center}
+    \texttt{[The rest part is missing]}    
+\end{center}
+
+% Assume $x$ is a solution to [H] and $\Phi$ is invertible at $t_0$. Then we can show $ \tilde{x}(t) = \Phi(t) \Phi^{-1}(t_0) x(t_0) $ is also a solution to [H]. $ \tilde{x} $ and $x$ has the same initial condition because $ \tilde{x}(t_0) = \Phi(t_0) \Phi^{-1}(t_0) x(t_0) = x(t_0)$ . Hence by uniqueness, $ x(t) = \tilde{x}(t)$. Hence
+% $$ x(t) = \tilde{x}(t) = \Phi(t) \Phi^{-1}(t_0) x(t_0) = \Phi(t) c .$$
+
+%=======================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%=======================================
+
+%$$##
+%\clearpage
+%\section*{References}
+%\beginrefs
+%\bibentry{CW87}{\sc D.~Coppersmith} and {\sc S.~Winograd}, 
+%``Matrix multiplication via arithmetic progressions,''
+%{\it Proceedings of the 19th ACM Symposium on Theory of %Computing},
+%1987, pp.~1--6.
+%\endrefs
+
+% **** THIS ENDS THE EXAMPLES. DON'T DELETE THE FOLLOWING LINE:
+
+\end{document}
